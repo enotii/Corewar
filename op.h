@@ -6,11 +6,12 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/12 16:23:18 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/12 20:11:20 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#ifndef OP_H
+# define OP_H
 #define IND_SIZE				2
 #define REG_SIZE				4
 #define DIR_SIZE				REG_SIZE
@@ -38,6 +39,13 @@
 #define NAME_CMD_STRING			".name"
 #define COMMENT_CMD_STRING		".comment"
 //lexic
+
+
+//label
+#define OP_LIVE					"live"
+#define OP_LD					"ld"
+#define OP_ZJMP					"zjmp"
+//label
 #define REG_NUMBER				16
 
 #define CYCLE_TO_DIE			1536
@@ -71,3 +79,5 @@ typedef struct		header_s
   unsigned int		prog_size;
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
+
+#endif

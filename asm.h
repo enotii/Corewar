@@ -6,12 +6,14 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/12 17:12:45 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/12 20:10:27 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
+# include "libft/libft.h"
+# include "op.h"
 
 typedef enum		s_token_type
 {
@@ -40,7 +42,8 @@ typedef struct		s_token
 typedef struct		s_token_list
 {
 	t_token			token;
-	t_token_list	*next;
+	t_token_type	*next;
+
 }					t_token_list;
 
 
@@ -56,5 +59,5 @@ typedef struct		s_token_list
 // }					t_figure;
 
 
-char *parse_string(char *str);
+void parse_string(char *str);
 #endif
