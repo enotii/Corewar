@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/12 14:44:58 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/12 16:23:18 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 #define MEM_SIZE				(4*1024)
 #define IDX_MOD					(MEM_SIZE / 8)
 #define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
-
-#define COMMENT_CHAR	        '#'
-# define ALT_COMMENT_CHAR       ';'
+//lexic
+#define COMMENT_CHAR			'#'
+#define ALT_COMMENT_CHAR		';'
 #define LABEL_CHAR				':'
 #define DIRECT_CHAR				'%'
 #define SEPARATOR_CHAR			','
@@ -37,7 +37,7 @@
 
 #define NAME_CMD_STRING			".name"
 #define COMMENT_CMD_STRING		".comment"
-
+//lexic
 #define REG_NUMBER				16
 
 #define CYCLE_TO_DIE			1536
