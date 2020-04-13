@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/12 20:10:27 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/13 17:08:32 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,19 @@ typedef enum		s_token_type
 
 typedef struct		s_token
 {
-	t_token_type	type; 
+	t_token_type	type;
 	int				number;
 	char*			string;
 	char*			label;
 	int				register_num;
 	int				address;
+	int				str_num; //for debug messages
 }					t_token;
 
 typedef struct		s_token_list
 {
 	t_token			token;
-	t_token_type	*next;
+	t_token_list	*next;
 
 }					t_token_list;
 
