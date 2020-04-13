@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/13 17:08:32 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/13 17:16:15 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ASM_H
 # include "libft/libft.h"
 # include "op.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 typedef enum		s_token_type
 {
@@ -42,23 +45,9 @@ typedef struct		s_token
 
 typedef struct		s_token_list
 {
-	t_token			token;
-	t_token_list	*next;
-
-}					t_token_list;
-
-
-// typedef	struct		s_figure
-// {
-// 	char			alpha;
-// 	char			**figure;
-// 	struct s_figure	*next;
-// 	int				width;
-// 	int				length;
-// 	int				coords[2];
-// 	int				count;
-// }					t_figure;
-
+	t_token				token;
+	struct s_token_list	*next;
+}						t_token_list;
 
 void parse_string(char *str);
 #endif
