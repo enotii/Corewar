@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/13 17:16:15 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/14 22:59:22 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <stdlib.h>
 
 typedef enum		s_token_type
 {
@@ -24,9 +25,9 @@ typedef enum		s_token_type
 	NUMBER,
 	LABEL,
 	ADDRESS,
-	CHAMP_NAME,
-	CHAMP_COMMENT,
-	LIVE,
+	CHAMP_NAME, //done
+	CHAMP_COMMENT, //done
+	OPERATION,
 	COMMENT,
 	SEPARATOR,
 	REGISTER
@@ -40,6 +41,7 @@ typedef struct		s_token
 	char*			label;
 	int				register_num;
 	int				address;
+	int				op_code;
 	int				str_num; //for debug messages
 }					t_token;
 
@@ -49,5 +51,9 @@ typedef struct		s_token_list
 	struct s_token_list	*next;
 }						t_token_list;
 
-void parse_string(char *str);
+char			*parse_file(char *filename);
+t_token_list	*file_to_tokens(char *str);
+t_token_list	*get_next_token(char **orig_string);
+t_token_list	addlstname(t_token_list	*ret);
+t_token_list	addlstcomment(t_token_list	*ret);
 #endif

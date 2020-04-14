@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/12 20:11:20 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/14 21:41:01 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 
 #define MAX_ARGS_NUMBER			4
-#define MAX_PLAYERS				4
-#define MEM_SIZE				(4*1024)
-#define IDX_MOD					(MEM_SIZE / 8)
+#define MAX_PLAYERS				  4
+#define MEM_SIZE				  (4*1024)
+#define IDX_MOD					  (MEM_SIZE / 8)
 #define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 //lexic
 #define COMMENT_CHAR			'#'
@@ -40,17 +40,11 @@
 #define COMMENT_CMD_STRING		".comment"
 //lexic
 
-
-//label
-#define OP_LIVE					"live"
-#define OP_LD					"ld"
-#define OP_ZJMP					"zjmp"
-//label
 #define REG_NUMBER				16
 
 #define CYCLE_TO_DIE			1536
 #define CYCLE_DELTA				50
-#define NBR_LIVE				21
+#define NBR_LIVE				  21
 #define MAX_CHECKS				10
 
 /*
@@ -74,10 +68,23 @@ typedef char	t_arg_type;
 
 typedef struct		header_s
 {
-  unsigned int		magic;
-  char				prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int		prog_size;
-  char				comment[COMMENT_LENGTH + 1];
+	unsigned int		magic;
+	char				prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int		prog_size;
+	char				comment[COMMENT_LENGTH + 1];
 }					header_t;
+
+typedef struct	s_op
+{
+	char		*op_name;
+	int			args_num;
+	int			valid_arg_types[3];
+	int			op_code;
+	int			cycle_num;
+	char*		description;
+	int			pupa;
+	int			lupa;
+}				t_op;
+
 
 #endif

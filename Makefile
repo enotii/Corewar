@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+         #
+#    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/13 17:13:48 by ilya             ###   ########.fr        #
+#    Updated: 2020/04/14 21:41:01 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = asm
 
 LIB = -I libft/libft.h -L./libft -lft
 
-SRC = asm_main.c
+SRC = *.c
 
 OBJ = $(SRC:.c=.o)
 
