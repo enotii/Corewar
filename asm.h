@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/14 22:59:22 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/14 23:08:56 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ typedef struct		s_token_list
 char			*parse_file(char *filename);
 t_token_list	*file_to_tokens(char *str);
 t_token_list	*get_next_token(char **orig_string);
-t_token_list	addlstname(t_token_list	*ret);
-t_token_list	addlstcomment(t_token_list	*ret);
+void			addlstname(t_token_list	*ret);
+void			addlstcomment(t_token_list	*ret);
 #endif
