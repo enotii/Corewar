@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/14 21:41:01 by caking           ###   ########.fr        #
+#    Updated: 2020/04/16 22:53:57 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,13 @@ OBJ = $(SRC:.c=.o)
 
 HEADER = -I asm.h
 
+FLAGS = -Wall -Wextra -Werror
+
 all: $(NAME)
 
 $(NAME):  $(OBJ)
 	make -C libft/
-	gcc -Wall -Wextra -Werror $(OBJ) -o $(NAME) $(LIB)
+	gcc $(FLAGS) $(OBJ) -o $(NAME) $(LIB)
 
 clean:
 	rm -rf libft/*.o
@@ -38,3 +40,6 @@ re: fclean all
 
 norm:
 	norminette -R CheckForbiddenSourceHeader *
+
+debug: 
+	gcc -ggdb *.c -I asm.h $(LIB)

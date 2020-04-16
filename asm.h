@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/14 23:08:56 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/16 22:12:26 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ t_token_list	*file_to_tokens(char *str);
 t_token_list	*get_next_token(char **orig_string);
 void			addlstname(t_token_list	*ret);
 void			addlstcomment(t_token_list	*ret);
+int				skip_whitespaces(char *str);
 #endif
