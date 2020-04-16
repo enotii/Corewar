@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/14 23:05:13 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/16 19:33:24 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
 
-void					addlstname(t_token_list	*ret) 
+void					addlstname(t_token_list	*ret)
 {
 	ret->token.type = CHAMP_NAME;
 	ret->next = NULL;
@@ -48,9 +48,12 @@ t_token_list			*get_next_token(char **orig_string)
 	else if (ft_strcmp(substring,COMMENT_CMD_STRING))
 		addlstcomment(ret);
 	// else if ()
-	else if(str[i + 1] == '"' && substring)
+	else if(str[i] == '"' && substring)
 		adds(ret);
-	else if 
+	else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
+		while (str[i] && str[i] != '\n')
+			++i;
+	// else if
 	*orig_string = &str[i];
 	return (ret);
 }
