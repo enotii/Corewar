@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/16 22:12:26 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/16 23:15:29 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@
 
 typedef enum		s_token_type
 {
-	STRING,
+	STRING, //done
 	NUMBER,
 	LABEL,
 	ADDRESS,
 	CHAMP_NAME, //done
 	CHAMP_COMMENT, //done
 	OPERATION,
-	COMMENT,
-	SEPARATOR,
+	SEPARATOR, //done
 	REGISTER
 }					t_token_type;
 

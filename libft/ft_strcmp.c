@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/16 21:40:48 by caking            #+#    #+#             */
-/*   Updated: 2018/12/16 22:08:36 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/16 23:41:22 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
 	while ((*s1) && (*s2) && (*s1 == *s2))
 	{
 		s1++;
