@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/16 23:15:29 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/18 23:36:01 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
+
+# define LABEL_ERROR 1
 
 typedef enum		s_token_type
 {
@@ -56,4 +59,12 @@ t_token_list	*get_next_token(char **orig_string);
 void			addlstname(t_token_list	*ret);
 void			addlstcomment(t_token_list	*ret);
 int				skip_whitespaces(char *str);
+void			addseparator(t_token_list	*ret, int *i);
+int				addlabel(t_token_list *ret, char *substring, int *i);
+void			puterror(int i);
+int				addstring(t_token_list *ret, char *str);
+int				skip_until_next_token(int i, char *str);
+int				check_commands(char *substring);
+int				add_command(t_token_list *ret, int j);
+
 #endif

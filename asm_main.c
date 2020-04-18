@@ -6,12 +6,18 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/17 00:02:35 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/18 23:43:54 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "op.h"
+
+
+void					puterror(int i)
+{
+	i == LABEL_ERROR ? ft_putstr("INVALID LABEL") : 0;
+}
 
 void					addlstname(t_token_list	*ret)
 {
@@ -71,6 +77,43 @@ int						addstring(t_token_list *ret, char *str)
 		return (-1);
 }
 
+int						addlabel(t_token_list *ret, char *substring, int *i)
+{
+	int j = 0;
+	ret->token.type = LABEL;
+	while(substring[j])
+	{
+		if (!ft_strchr(LABEL_CHARS, substring[j]))
+		{
+			puterror(LABEL_ERROR);
+			return (0);
+		}
+		j++;
+	}
+	ret->token.label = ft_strdup(substring);
+	*i += 1;
+	return (1);
+}
+
+int						check_commands(char *substring)
+{
+	int					i;
+
+	i = -1;
+	while (++i < 17)
+		if (!ft_strcmp(op_tab[i].op_name, substring))
+			return (i + 1);
+	return (0);
+}
+
+int						addcommand(t_token_list *ret, int j)
+{
+	ret->token.type = OPERATION;
+	ret->token.op_code = op_tab[j - 1].op_code;
+	ret->next = NULL;
+	return (0);
+}
+
 t_token_list			*get_next_token(char **orig_string)
 {
 	t_token_list		*ret = malloc(sizeof(t_token_list));
@@ -85,19 +128,27 @@ t_token_list			*get_next_token(char **orig_string)
 	if (j)
 		substring = ft_strsub(str, i, j);
 	i += j;
-	if (!ft_strcmp(substring, NAME_CMD_STRING))
-		addlstname(ret);
-	else if (!ft_strcmp(substring ,COMMENT_CMD_STRING))
-		addlstcomment(ret);
-	else if (str[i] == '"' && !substring)
-		i += addstring(ret, &str[i]);
-	else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
-		while (str[i] && str[i] != '\n')
-			++i;
-	else if (str[i] == SEPARATOR_CHAR)
-		addseparator(ret, &i);
-	else if (str[i] == '\n')
-		i++;
+	if(substring)
+	{
+		if (!ft_strcmp(substring, NAME_CMD_STRING))
+			addlstname(ret);
+		else if (!ft_strcmp(substring ,COMMENT_CMD_STRING))
+			addlstcomment(ret);
+		else if(str[i] == LABEL_CHAR)
+			addlabel(ret, substring, &i);
+		else if ((j = check_commands(substring)))
+			addcommand(ret, j);
+	}
+	else
+	{
+		if (str[i] == '"' && !substring)
+			i += addstring(ret, &str[i]);
+		else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
+			while (str[i] && str[i] != '\n')
+				++i;
+		else if (str[i] == SEPARATOR_CHAR)
+			addseparator(ret, &i);
+	}
 	*orig_string = &str[i];
 	return (ret);
 }
@@ -147,6 +198,8 @@ int				main(int argc, char **argv)
 {
 	int	name_len;
 	
+//	ft_putnbr(op_tab[0].args_num);
+//	ft_putstr(op_tab[0].op_name);
 	name_len = ft_strlen(argv[argc - 1]);
 	if (name_len < 3 || argv[argc - 1][name_len - 1] != 's' ||
 	argv[argc - 1][name_len - 2] != '.')

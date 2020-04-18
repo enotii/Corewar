@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/16 22:53:57 by caking           ###   ########.fr        #
+#    Updated: 2020/04/18 23:21:03 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = asm
 
 LIB = -I libft/libft.h -L./libft -lft
 
-SRC = *.c
+SRC = asm_main.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -42,4 +42,4 @@ norm:
 	norminette -R CheckForbiddenSourceHeader *
 
 debug: 
-	gcc -ggdb *.c -I asm.h $(LIB)
+	gcc -ggdb asm_main.c -I asm.h $(LIB)
