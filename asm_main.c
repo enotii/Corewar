@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/18 23:43:54 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/19 18:24:19 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void					puterror(int i)
 {
 	i == LABEL_ERROR ? ft_putstr("INVALID LABEL") : 0;
+	i == REGISTER_ERROR ? ft_putstr("INVALID REGISTER ARG") : 0;
 }
 
 void					addlstname(t_token_list	*ret)
@@ -91,6 +92,7 @@ int						addlabel(t_token_list *ret, char *substring, int *i)
 		j++;
 	}
 	ret->token.label = ft_strdup(substring);
+	ret->next = NULL;
 	*i += 1;
 	return (1);
 }
@@ -112,6 +114,56 @@ int						addcommand(t_token_list *ret, int j)
 	ret->token.op_code = op_tab[j - 1].op_code;
 	ret->next = NULL;
 	return (0);
+}
+
+int						adddirectarg(t_token_list *ret, char *str, int *i)
+{
+	int					value;
+	
+	(*i)++;
+	ret->token.direct = ft_atoi(&str[*i]);
+	if (str[*i] == '-')
+		(*i)++;
+	while (str[*i] >= '0' && str[*i] <= '9')
+		(*i)++;
+	ret->token.type = DIRECT;
+	ret->next = NULL;
+	return(0);
+}
+
+int						addregisterarg(t_token_list *ret, char *substring, int *i)
+{
+	int					count;
+	int					len;
+
+	count = 1;
+	len = ft_strlen(substring);
+	ret->token.type = REGISTER;
+	ret->token.register_num = ft_atoi(&substring[1]);
+	ret->next = NULL;
+	while (count < len)
+	{
+		if (substring[count] > '9' || substring[count] < '0')
+		{
+			puterror(REGISTER_ERROR);
+			return(-1);
+		}
+		count++;
+	}
+	return (0);
+}
+
+int						addindirectarg(t_token_list *ret, char *str, int *i)
+{
+	int					j;
+
+	ret->token.type = INDERECT;
+	*i += 2;
+	j = skip_until_next_token(0, &str[*i]);
+	ret->token.indirect = ft_strsub(str, *i, j);
+	ret->next = NULL;
+	*i += j;
+	return(0);
 }
 
 t_token_list			*get_next_token(char **orig_string)
@@ -138,6 +190,8 @@ t_token_list			*get_next_token(char **orig_string)
 			addlabel(ret, substring, &i);
 		else if ((j = check_commands(substring)))
 			addcommand(ret, j);
+		else if(substring[0] == 'r')
+			addregisterarg(ret,substring,&i);
 	}
 	else
 	{
@@ -148,6 +202,10 @@ t_token_list			*get_next_token(char **orig_string)
 				++i;
 		else if (str[i] == SEPARATOR_CHAR)
 			addseparator(ret, &i);
+		else if(str[i] == DIRECT_CHAR && str[i + 1] != LABEL_CHAR)
+			adddirectarg(ret, str, &i);
+		else if(str[i] == DIRECT_CHAR && str[i + 1] == LABEL_CHAR)
+			addindirectarg(ret, str, &i);
 	}
 	*orig_string = &str[i];
 	return (ret);

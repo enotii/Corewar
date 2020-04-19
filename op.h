@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/18 23:19:06 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/19 16:37:37 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 #define CYCLE_TO_DIE			1536
 #define CYCLE_DELTA				50
-#define NBR_LIVE				  21
+#define NBR_LIVE				21
 #define MAX_CHECKS				10
 
 /*

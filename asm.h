@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/18 23:36:01 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/19 18:08:05 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,29 @@
 # include <stdio.h>
 
 # define LABEL_ERROR 1
+# define REGISTER_ERROR 2
 
 typedef enum		s_token_type
 {
 	STRING, //done
-	NUMBER,
-	LABEL,
-	ADDRESS,
+	DIRECT, //done
+	LABEL, //done
+	INDERECT,
 	CHAMP_NAME, //done
 	CHAMP_COMMENT, //done
-	OPERATION,
+	OPERATION, //done
 	SEPARATOR, //done
-	REGISTER
+	REGISTER //done
 }					t_token_type;
 
 typedef struct		s_token
 {
 	t_token_type	type;
-	int				number;
+	int				direct;
 	char*			string;
 	char*			label;
 	int				register_num;
-	int				address;
+	char			*indirect;
 	int				op_code;
 	int				str_num; //for debug messages
 }					t_token;
@@ -66,5 +67,7 @@ int				addstring(t_token_list *ret, char *str);
 int				skip_until_next_token(int i, char *str);
 int				check_commands(char *substring);
 int				add_command(t_token_list *ret, int j);
-
+int				adddirectarg(t_token_list *ret, char *str, int *i);
+int				addregisterarg(t_token_list *ret, char *substring, int *i);
+int				addindirectarg(t_token_list *ret, char *str, int *i);
 #endif
