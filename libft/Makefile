@@ -3,43 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: caking <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/18 23:21:03 by caking           ###   ########.fr        #
+#    Created: 2018/12/07 21:28:35 by caking            #+#    #+#              #
+#    Updated: 2018/12/07 21:47:09 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
-
-LIB = -I libft/libft.h -L./libft -lft
-
-SRC = asm_main.c
-
-OBJ = $(SRC:.c=.o)
-
-HEADER = -I asm.h
-
-FLAGS = -Wall -Wextra -Werror
-
+NAME = libft.a
+PATH_SRC = ./srcs
+SRC = $(PATH_SRC)/*.c
+HEADER = ./libft.h
+OBJ =  *.o
 all: $(NAME)
-
-$(NAME):  $(OBJ)
-	make -C libft/
-	gcc $(FLAGS) $(OBJ) -o $(NAME) $(LIB)
-
+$(NAME):
+	gcc -Wall -Wextra -Werror -c *.c
+	ar rc libft.a $(OBJ)
+	ranlib libft.a
 clean:
-	rm -rf libft/*.o
 	rm -rf *.o
-
 fclean: clean
 	rm -rf $(NAME)
-	rm -rf libft/libft.a
-
 re: fclean all
 
-norm:
-	norminette -R CheckForbiddenSourceHeader *
 
-debug: 
-	gcc -ggdb asm_main.c -I asm.h $(LIB)
