@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/19 18:24:19 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/21 18:00:02 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #include "op.h"
 
 
-void					puterror(int i)
+int					puterror(int i)
 {
 	i == LABEL_ERROR ? ft_putstr("INVALID LABEL") : 0;
 	i == REGISTER_ERROR ? ft_putstr("INVALID REGISTER ARG") : 0;
+	exit(-1);
 }
 
 void					addlstname(t_token_list	*ret)
@@ -85,10 +86,7 @@ int						addlabel(t_token_list *ret, char *substring, int *i)
 	while(substring[j])
 	{
 		if (!ft_strchr(LABEL_CHARS, substring[j]))
-		{
-			puterror(LABEL_ERROR);
-			return (0);
-		}
+			return(puterror(LABEL_ERROR));
 		j++;
 	}
 	ret->token.label = ft_strdup(substring);
@@ -144,10 +142,7 @@ int						addregisterarg(t_token_list *ret, char *substring, int *i)
 	while (count < len)
 	{
 		if (substring[count] > '9' || substring[count] < '0')
-		{
-			puterror(REGISTER_ERROR);
-			return(-1);
-		}
+			return(puterror(REGISTER_ERROR));
 		count++;
 	}
 	return (0);

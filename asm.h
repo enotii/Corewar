@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/19 18:08:05 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/21 18:00:26 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			addlstcomment(t_token_list	*ret);
 int				skip_whitespaces(char *str);
 void			addseparator(t_token_list	*ret, int *i);
 int				addlabel(t_token_list *ret, char *substring, int *i);
-void			puterror(int i);
+int				puterror(int i);
 int				addstring(t_token_list *ret, char *str);
 int				skip_until_next_token(int i, char *str);
 int				check_commands(char *substring);
