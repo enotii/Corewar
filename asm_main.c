@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/21 18:00:02 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/21 18:46:18 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int					puterror(int i)
 {
 	i == LABEL_ERROR ? ft_putstr("INVALID LABEL") : 0;
 	i == REGISTER_ERROR ? ft_putstr("INVALID REGISTER ARG") : 0;
+	i == LEXIC_ERROR ? ft_putstr("LEXIC ERROR") : 0;
+
 	exit(-1);
 }
 
@@ -119,17 +121,35 @@ int						adddirectarg(t_token_list *ret, char *str, int *i)
 	int					value;
 	
 	(*i)++;
-	ret->token.direct = ft_atoi(&str[*i]);
-	if (str[*i] == '-')
+	if (str[*i] == LABEL_CHAR)
+	{
+		ret->token.type = DIRECT_LABEL;
 		(*i)++;
-	while (str[*i] >= '0' && str[*i] <= '9')
-		(*i)++;
-	ret->token.type = DIRECT;
+		int				j = skip_until_next_token(*i, str);
+		char			*substring = ft_strsub(str, *i, j);
+		while(substring[j])
+		{
+			if (!ft_strchr(LABEL_CHARS, substring[j]))
+				return(puterror(LABEL_ERROR));
+			j++;
+		}
+		ret->token.direct_label = substring;
+		*i += j;
+	}
+	else
+	{
+		ret->token.direct = ft_atoi(&str[*i]);
+		if (str[*i] == '-')
+			(*i)++;
+		while (str[*i] >= '0' && str[*i] <= '9')
+			(*i)++;
+		ret->token.type = DIRECT;
+	}
 	ret->next = NULL;
 	return(0);
 }
 
-int						addregisterarg(t_token_list *ret, char *substring, int *i)
+int						addregisterarg(t_token_list *ret, char *substring)
 {
 	int					count;
 	int					len;
@@ -148,17 +168,42 @@ int						addregisterarg(t_token_list *ret, char *substring, int *i)
 	return (0);
 }
 
-int						addindirectarg(t_token_list *ret, char *str, int *i)
+int						addindirectarg(t_token_list *ret, char *substring)
 {
 	int					j;
+	int					len;
 
-	ret->token.type = INDERECT;
-	*i += 2;
-	j = skip_until_next_token(0, &str[*i]);
-	ret->token.indirect = ft_strsub(str, *i, j);
+	j = 0;
+	len = ft_strlen(substring);
+	ret->token.indirect = ft_atoi(substring);
+	if (substring[0] == '-')
+		j++;
+	while (j < len)
+	{
+		if (!(substring[j] >= '0' && substring[j] <= '9'))
+			return (puterror(LEXIC_ERROR));
+		j++;
+	}
+	ret->token.type = INDIRECT;
 	ret->next = NULL;
-	*i += j;
 	return(0);
+}
+
+int						addindirectlabelarg(t_token_list *ret, char *str, int *i)
+{
+	ret->token.type = INDIRECT_LABEL;
+	(*i)++;
+	int				j = skip_until_next_token(*i, str);
+	char			*substring = ft_strsub(str, *i, j);
+	while(substring[j])
+	{
+		if (!ft_strchr(LABEL_CHARS, substring[j]))
+			return(puterror(LABEL_ERROR));
+		j++;
+	}
+	ret->token.indirect_label = substring;
+	*i += j;
+	return (0);
 }
 
 t_token_list			*get_next_token(char **orig_string)
@@ -186,7 +231,9 @@ t_token_list			*get_next_token(char **orig_string)
 		else if ((j = check_commands(substring)))
 			addcommand(ret, j);
 		else if(substring[0] == 'r')
-			addregisterarg(ret,substring,&i);
+			addregisterarg(ret,substring);
+		else 
+			addindirectarg(ret, substring);
 	}
 	else
 	{
@@ -197,10 +244,10 @@ t_token_list			*get_next_token(char **orig_string)
 				++i;
 		else if (str[i] == SEPARATOR_CHAR)
 			addseparator(ret, &i);
-		else if(str[i] == DIRECT_CHAR && str[i + 1] != LABEL_CHAR)
+		else if(str[i] == DIRECT_CHAR)
 			adddirectarg(ret, str, &i);
-		else if(str[i] == DIRECT_CHAR && str[i + 1] == LABEL_CHAR)
-			addindirectarg(ret, str, &i);
+		else if(str[i] == LABEL_CHAR)
+			addindirectlabelarg(ret, str, &i);
 	}
 	*orig_string = &str[i];
 	return (ret);
@@ -251,8 +298,6 @@ int				main(int argc, char **argv)
 {
 	int	name_len;
 	
-//	ft_putnbr(op_tab[0].args_num);
-//	ft_putstr(op_tab[0].op_name);
 	name_len = ft_strlen(argv[argc - 1]);
 	if (name_len < 3 || argv[argc - 1][name_len - 1] != 's' ||
 	argv[argc - 1][name_len - 2] != '.')

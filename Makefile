@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/18 23:21:03 by caking           ###   ########.fr        #
+#    Updated: 2020/04/21 18:20:19 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,5 +41,8 @@ re: fclean all
 norm:
 	norminette -R CheckForbiddenSourceHeader *
 
-debug: 
+debug:
 	gcc -ggdb asm_main.c -I asm.h $(LIB)
+
+byte:
+	xxd 42.cor | head

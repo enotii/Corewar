@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/19 16:37:37 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/21 18:20:28 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define OP_H
 #define IND_SIZE				2
 #define REG_SIZE				4
-#define DIR_SIZE				REG_SIZE
+#define DcIR_SIZE				REG_SIZE
 
 
 # define REG_CODE				1
@@ -23,9 +23,9 @@
 
 
 #define MAX_ARGS_NUMBER			4
-#define MAX_PLAYERS				  4
-#define MEM_SIZE				  (4*1024)
-#define IDX_MOD					  (MEM_SIZE / 8)
+#define MAX_PLAYERS				4
+#define MEM_SIZE				(4*1024)
+#define IDX_MOD					(MEM_SIZE / 8)
 #define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 //lexic
 #define COMMENT_CHAR			'#'
@@ -73,6 +73,13 @@ typedef struct		header_s
 	unsigned int		prog_size;
 	char				comment[COMMENT_LENGTH + 1];
 }					header_t;
+
+typedef struct		s_info
+{
+	int				labels;
+	int				prog_size;
+	char			*program;
+}					t_info;
 
 typedef struct	s_op
 {
