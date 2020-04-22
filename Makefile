@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/21 18:20:19 by caking           ###   ########.fr        #
+#    Updated: 2020/04/22 23:41:27 by ilya             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = asm
 
-LIB = -I libft/libft.h -L./libft -lft
+LIB = -I libft/ -L./libft -lft
 
-SRC = asm_main.c
+SRC = asm_main.c tokens.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -24,7 +24,7 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME):  $(OBJ)
+$(NAME): $(OBJ)
 	make -C libft/
 	gcc $(FLAGS) $(OBJ) -o $(NAME) $(LIB)
 
@@ -42,7 +42,7 @@ norm:
 	norminette -R CheckForbiddenSourceHeader *
 
 debug:
-	gcc -ggdb asm_main.c -I asm.h $(LIB)
+	gcc -ggdb $(SRC) $(LIB)
 
 byte:
 	xxd 42.cor | head
