@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/21 18:45:42 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/23 21:07:15 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,26 @@ typedef struct		s_token_list
 	t_token				token;
 	struct s_token_list	*next;
 }						t_token_list;
+
+typedef struct		s_command
+{
+	int				is_label;
+	int				op_code;
+	int				types[3];
+	int				values[3];
+}					t_command;
+
+typedef struct		s_command_list
+{
+	t_command		command;
+	t_command_list	*next;
+}					t_command_list;
+
+typedef struct		s_program
+{
+	t_header		header;
+	t_command_list	*list;
+}					t_program;
 
 char			*parse_file(char *filename);
 t_token_list	*file_to_tokens(char *str);

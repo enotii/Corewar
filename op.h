@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/22 23:27:32 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/23 14:56:21 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,32 @@ typedef char	t_arg_type;
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct		header_s
+typedef struct					s_header
 {
-	unsigned int		magic;
-	char				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int		prog_size;
-	char				comment[COMMENT_LENGTH + 1];
-}					header_t;
+	unsigned int				magic;
+	char						prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int				prog_size;
+	char						comment[COMMENT_LENGTH + 1];
+}								t_header;
 
-typedef struct		s_info
+typedef struct					s_info
 {
-	int				labels;
-	int				prog_size;
-	char			*program;
-}					t_info;
+	int							labels;
+	int							prog_size;
+	char						*program;
+}								t_info;
 
-typedef struct	s_op
+typedef struct					s_op
 {
-	char		*op_name;
-	int			args_num;
-	int			valid_arg_types[3];
-	int			op_code;
-	int			cycle_num;
-	char*		description;
-	int			pupa;
-	int			lupa;
-}				t_op;
+	char						*op_name;
+	int							args_num;
+	int							valid_arg_types[3];
+	int							op_code;
+	int							cycle_num;
+	char*						description;
+	int							pupa;
+	int							lupa;
+}								t_op;
 
 static t_op		op_tab[17] =
 {
