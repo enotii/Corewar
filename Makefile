@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/25 16:56:32 by caking           ###   ########.fr        #
+#    Updated: 2020/04/25 17:05:31 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,4 +49,4 @@ byte:
 byte2:
 	xxd 42 > 2.hex
 change: 
-	diff 1.hex 2.hex
+	diff 1.hex 2.hex > change.diff
