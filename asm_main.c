@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 03:54:05 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 14:22:49 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char			*commands_to_bytecode(t_program program)
 		}
 		list = list->next;
 	}
-
+	write(fd, body, program.header.prog_size);
 	return (NULL);
 }
 
