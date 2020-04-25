@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 14:22:49 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 14:53:31 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,14 +306,6 @@ int				main(int argc, char **argv)
 {
 	int	name_len;
 
-	name_len = ft_strlen(argv[argc - 1]);
-	if (name_len < 3 || argv[argc - 1][name_len - 1] != 's' ||
-	argv[argc - 1][name_len - 2] != '.')
-		ft_putstr("Invalid file :c");
-	else
-		parse_file(argv[argc - 1]);
-	return(0);
-}
 	name_len = ft_strlen(argv[argc - 1]);
 	if (name_len < 3 || argv[argc - 1][name_len - 1] != 's' ||
 	argv[argc - 1][name_len - 2] != '.')
