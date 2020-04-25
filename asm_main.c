@@ -6,11 +6,37 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 20:06:22 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 22:01:49 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+int16_t			transform_int_16(int16_t integer, int is_big)
+{
+	if (!is_big)
+	{
+		int16_t	new_integer = 0;
+		new_integer |= (0x00FF & integer) << 8;
+		new_integer |= (0xFF00 & integer) >> 8;
+		integer = new_integer;
+	}
+	return (integer);
+}
+
+int32_t			transform_int_32(int32_t integer, int is_big)
+{
+	if (!is_big)
+	{
+		int32_t	new_integer = 0;
+		new_integer |= (0x000000FF & integer) << 24;
+		new_integer |= (0x0000FF00 & integer) << 8;
+		new_integer |= (0x00FF0000 & integer) >> 8;
+		new_integer |= (0xFF000000 & integer) >> 24;
+		integer = new_integer;
+	}
+	return (integer);
+}
 
 char			form_byte_args(t_command *command)
 {
@@ -38,11 +64,11 @@ char			*commands_to_bytecode(t_program program)
 	int			endianess = *(uint8_t*)&x == 0 ? 1 : 0;
 
 	int			mem_count = 0;
-	*(int32_t*)body = (int32_t)COREWAR_EXEC_MAGIC;
+	*(int32_t*)body = transform_int_32((int32_t)COREWAR_EXEC_MAGIC, endianess);
 	ft_bzero(&body[4], PROG_NAME_LENGTH);
 	ft_strcpy(&body[4], program.header.prog_name);
 	*(int32_t*)(&body[4 + PROG_NAME_LENGTH]) = (int32_t)0;
-	*(int32_t*)(&body[8 + PROG_NAME_LENGTH]) = (int32_t)program.header.prog_size;
+	*(int32_t*)(&body[8 + PROG_NAME_LENGTH]) = transform_int_32((int32_t)(program.header.prog_size - 16 - PROG_NAME_LENGTH - COMMENT_LENGTH), endianess);
 	ft_bzero(&body[12 + PROG_NAME_LENGTH], COMMENT_LENGTH);
 	ft_strcpy(&body[12 + PROG_NAME_LENGTH], program.header.comment);
 	*(int32_t*)(&body[12 + PROG_NAME_LENGTH + COMMENT_LENGTH]) = (int32_t)0;
@@ -59,7 +85,7 @@ char			*commands_to_bytecode(t_program program)
 		mem_count++;
 		if (op_tab[list->command.op_code - 1].arg_types_code)
 		{
-			body[mem_count] = form_byte_args(&list->command); //PLACEHOLDER!!!
+			body[mem_count] = form_byte_args(&list->command);
 			mem_count++;
 		}
 		int		count = 0;
@@ -72,15 +98,15 @@ char			*commands_to_bytecode(t_program program)
 			}
 			else if (list->command.types[count] == INDIRECT || list->command.types[count] == INDIRECT_LABEL)
 			{
-				*(int16_t*)(&body[mem_count]) = (int16_t)list->command.values[count];
+				*(int16_t*)(&body[mem_count]) = transform_int_16((int16_t)list->command.values[count], endianess);
 				mem_count += 2;
 			}
 			else if (list->command.types[count] == DIRECT || list->command.types[count] == DIRECT_LABEL)
 			{
 				if (op_tab[list->command.op_code -1].t_dir_size)
-					*(int16_t*)(&body[mem_count]) = (int16_t)list->command.values[count];
+					*(int16_t*)(&body[mem_count]) = transform_int_16((int16_t)list->command.values[count], endianess);
 				else
-					*(int32_t*)(&body[mem_count]) = (int32_t)list->command.values[count];
+					*(int32_t*)(&body[mem_count]) = transform_int_32((int32_t)list->command.values[count], endianess);
 				mem_count += op_tab[list->command.op_code -1].t_dir_size ? 2 : 4;
 			}
 			count++;
@@ -237,7 +263,7 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 		if (command->types[count] == INDIRECT_LABEL)
 			command->values[count] = list->label_position; // PLACEHOLDER !!!
 		else
-			command->values[count] = list->label_position - bytes; // PLACEHOLDER !!!
+			command->values[count] = list->label_position - bytes + 1; // PLACEHOLDER !!!
 	}
 	else
 	{
