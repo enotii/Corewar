@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/04/22 23:42:51 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 16:26:01 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,8 +236,12 @@ t_token_list			*get_next_token(char **orig_string)
 		if (str[i] == '"' && !substring)
 			i += addstring(ret, &str[i]);
 		else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
+		{
 			while (str[i] && str[i] != '\n')
 				++i;
+			*orig_string = &str[i];
+			return (get_next_token(orig_string));
+		}
 		else if (str[i] == SEPARATOR_CHAR)
 			addseparator(ret, &i);
 		else if(str[i] == DIRECT_CHAR)

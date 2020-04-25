@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 02:54:55 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 15:12:51 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ typedef struct		s_command
 typedef struct		s_command_list
 {
 	t_command		command;
-	t_command_list	*next;
+	struct s_command_list	*next;
 }					t_command_list;
 
 typedef struct		s_label_list
 {
 	char			*label_name;
 	int				label_position;
-	t_label_list	*next;
+	struct s_label_list	*next;
 }					t_label_list;
 
 typedef struct		s_program

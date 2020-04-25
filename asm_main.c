@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 14:53:31 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 16:47:00 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 char			*commands_to_bytecode(t_program program)
 {
 	char		body[program.header.prog_size];
-	int			fd = open(program.header.prog_name, O_CREAT);
+	int			fd = open(program.header.prog_name, O_CREAT | O_RDWR);
 
 	int			mem_count = 0;
-	*(int16_t*)body = (int16_t)COREWAR_EXEC_MAGIC;
-	ft_strcpy(&body[2], program.header.prog_name);
-	*(int16_t*)(body[2 + PROG_NAME_LENGTH]) = (int16_t)0;
-	ft_strcpy(&body[4 + PROG_NAME_LENGTH], program.header.comment);
-	*(int16_t*)(body[4 + PROG_NAME_LENGTH + COMMENT_LENGTH]) = (int16_t)0;
-	mem_count += 6 + COMMENT_LENGTH + PROG_NAME_LENGTH;
+	*(int32_t*)body = (int32_t)COREWAR_EXEC_MAGIC;
+	ft_bzero(&body[4], PROG_NAME_LENGTH);
+	ft_strcpy(&body[4], program.header.prog_name);
+	*(int32_t*)(&body[4 + PROG_NAME_LENGTH]) = (int32_t)0;
+	*(int32_t*)(&body[8 + PROG_NAME_LENGTH]) = (int32_t)program.header.prog_size;
+	ft_bzero(&body[12 + PROG_NAME_LENGTH], COMMENT_LENGTH);
+	ft_strcpy(&body[12 + PROG_NAME_LENGTH], program.header.comment);
+	*(int32_t*)(&body[12 + PROG_NAME_LENGTH + COMMENT_LENGTH]) = (int32_t)0;
+	mem_count += 16 + COMMENT_LENGTH + PROG_NAME_LENGTH;
 	t_command_list *list = program.list;
 	while (list)
 	{
@@ -59,7 +62,7 @@ char			*commands_to_bytecode(t_program program)
 				else
 					*(int32_t*)(&body[mem_count]) = (int32_t)list->command.values[count];
 				mem_count += op_tab[list->command.op_code -1].t_dir_size ? 2 : 4;
-			}
+			}		
 			count++;
 		}
 		list = list->next;
@@ -75,7 +78,7 @@ void			handle_name(t_token_list **tokens, t_program *program)
 		ft_putstr("Something bad happened\n");
 		exit (0);
 	}
-	if ((*tokens)->token.type != NAME_CMD_STRING)
+	if ((*tokens)->token.type != CHAMP_NAME)
 	{
 		ft_putstr("No .name token\n");
 		exit (0);
@@ -96,7 +99,7 @@ void			handle_comment(t_token_list **tokens, t_program *program)
 		ft_putstr("Something bad happened\n");
 		exit (0);
 	}
-	if ((*tokens)->token.type != COMMENT_CMD_STRING)
+	if ((*tokens)->token.type != CHAMP_COMMENT) 
 	{
 		ft_putstr("No .comment token\n");
 		exit (0);
@@ -117,11 +120,12 @@ void			manage_args(t_token_list **list, t_command_list *result, t_program *prog)
 
 	*list = (*list)->next;
 	count = 0;
+	result->command.op_code = op_code;
 	while (count < op_tab[op_code - 1].args_num)
 	{
-		if (((op_tab[op_code -1].valid_arg_types[count] & T_REG) && (*list)->token.type != REGISTER)
-		|| ((op_tab[op_code -1].valid_arg_types[count] & T_IND) && (*list)->token.type != INDIRECT && (*list)->token.type != INDIRECT_LABEL)
-		|| ((op_tab[op_code -1].valid_arg_types[count] & T_DIR) && (*list)->token.type != DIRECT && (*list)->token.type != DIRECT_LABEL))
+		if ((!(op_tab[op_code -1].valid_arg_types[count] & T_REG) && (*list)->token.type == REGISTER)
+		|| (!(op_tab[op_code -1].valid_arg_types[count] & T_IND) && ((*list)->token.type == INDIRECT || (*list)->token.type == INDIRECT_LABEL))
+		|| (!(op_tab[op_code -1].valid_arg_types[count] & T_DIR) && ((*list)->token.type == DIRECT || (*list)->token.type == DIRECT_LABEL)))
 		{
 			ft_putstr("Wrong argument\n");
 			exit (0);
@@ -145,15 +149,16 @@ void			manage_args(t_token_list **list, t_command_list *result, t_program *prog)
 		else if ((*list)->token.type == DIRECT || (*list)->token.type == DIRECT_LABEL)
 			prog->header.prog_size += op_tab[op_code - 1].t_dir_size ? 2 : 4;
 		*list = (*list)->next;
-		if (count - 1 != op_tab[op_code - 1].args_num)
+		if (count + 1 != op_tab[op_code - 1].args_num)
 		{
-			*list = (*list)->next;
 			if (!(*list) || (*list)->token.type != SEPARATOR)
 			{
 				ft_putstr("No separator\n");
 				exit (0);
 			}
+			*list = (*list)->next;
 		}
+		count++;
 	}
 }
 
@@ -166,7 +171,7 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 		t_label_list *next = malloc(sizeof(t_label_list));
 		next->label_name = ft_strdup((*list)->token.label);
 		next->label_position = prog->header.prog_size;
-		next->next;
+		next->next = NULL;
 		if (prog->labels == NULL)
 		{
 			prog->labels = next;
@@ -234,7 +239,7 @@ void			replace_labels_with_values(t_program *prog)
 			list = list->next;
 			continue;
 		}
-		int			count;
+		int			count = 0;
 		byte_count += 1 + op_tab[list->command.op_code -1].arg_types_code;
 		while (count < op_tab[list->command.op_code - 1].args_num)
 		{
@@ -259,14 +264,15 @@ t_program		tokens_to_commands(t_token_list *tokens)
 
 	tokens_copy = tokens;
 	result.list = NULL;
+	result.labels = NULL;
 	result.header.prog_size = 0;
 	handle_name(&tokens_copy, &result);
 	handle_comment(&tokens_copy, &result);
 	t_command_list	*last = NULL;
-	t_label_list	*last = NULL;
+	t_label_list	*last_label = NULL;
 	while (tokens_copy)
 	{
-		t_command_list	*next = get_next_command(&tokens_copy, &result, &last);
+		t_command_list	*next = get_next_command(&tokens_copy, &result, &last_label);
 		if (result.list == NULL)
 		{
 			result.list = next;
@@ -279,7 +285,7 @@ t_program		tokens_to_commands(t_token_list *tokens)
 		}
 	}
 	replace_labels_with_values(&result);
-	result.header.prog_size += 6 + PROG_NAME_LENGTH + COMMENT_LENGTH;
+	result.header.prog_size += 16 + PROG_NAME_LENGTH + COMMENT_LENGTH;
 	return (result);
 }
 
@@ -297,7 +303,8 @@ char			*parse_file(char *filename) //file to string
 		ft_memcpy(new_str + ft_strlen(content), buffer, num);
 		new_str[ft_strlen(content) + num] = '\0';
 		free(content);
-		content = new_str;
+		content = ft_strtrim(new_str);
+		free(new_str);
 	}
 	return (commands_to_bytecode(tokens_to_commands(file_to_tokens(content))));
 }
