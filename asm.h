@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/23 21:07:15 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/25 02:54:55 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct		s_command
 	int				op_code;
 	int				types[3];
 	int				values[3];
+	char			*labels[3];
 }					t_command;
 
 typedef struct		s_command_list
@@ -73,10 +74,18 @@ typedef struct		s_command_list
 	t_command_list	*next;
 }					t_command_list;
 
+typedef struct		s_label_list
+{
+	char			*label_name;
+	int				label_position;
+	t_label_list	*next;
+}					t_label_list;
+
 typedef struct		s_program
 {
 	t_header		header;
 	t_command_list	*list;
+	t_label_list	*labels;
 }					t_program;
 
 char			*parse_file(char *filename);

@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/04/23 14:56:21 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/24 19:00:10 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ typedef struct					s_op
 	int							op_code;
 	int							cycle_num;
 	char*						description;
-	int							pupa;
-	int							lupa;
+	int							arg_types_code;
+	int							t_dir_size;
 }								t_op;
 
 static t_op		op_tab[17] =
