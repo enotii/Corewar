@@ -3,19 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 16:47:00 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/25 20:06:22 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
+char			form_byte_args(t_command *command)
+{
+	char		args[3] = {0, 0, 0};
+	int			count = 0;
+
+	while (count < op_tab[command->op_code - 1].args_num)
+	{
+		if (command->types[count] == INDIRECT_LABEL || command->types[count] == INDIRECT)
+			args[count] = 3;
+		else if (command->types[count] == DIRECT_LABEL || command->types[count] == DIRECT)
+			args[count] = 2;
+		else if (command->types[count])
+			args[count] = 1;
+		count++;
+	}
+	return (args[0] << 6 | args[1] << 4 | args[2] << 2);
+}
+
 char			*commands_to_bytecode(t_program program)
 {
 	char		body[program.header.prog_size];
 	int			fd = open(program.header.prog_name, O_CREAT | O_RDWR);
+	uint16_t	x = 1;
+	int			endianess = *(uint8_t*)&x == 0 ? 1 : 0;
 
 	int			mem_count = 0;
 	*(int32_t*)body = (int32_t)COREWAR_EXEC_MAGIC;
@@ -39,7 +59,7 @@ char			*commands_to_bytecode(t_program program)
 		mem_count++;
 		if (op_tab[list->command.op_code - 1].arg_types_code)
 		{
-			body[mem_count] = 0; //PLACEHOLDER!!!
+			body[mem_count] = form_byte_args(&list->command); //PLACEHOLDER!!!
 			mem_count++;
 		}
 		int		count = 0;
@@ -62,7 +82,7 @@ char			*commands_to_bytecode(t_program program)
 				else
 					*(int32_t*)(&body[mem_count]) = (int32_t)list->command.values[count];
 				mem_count += op_tab[list->command.op_code -1].t_dir_size ? 2 : 4;
-			}		
+			}
 			count++;
 		}
 		list = list->next;
@@ -99,7 +119,7 @@ void			handle_comment(t_token_list **tokens, t_program *program)
 		ft_putstr("Something bad happened\n");
 		exit (0);
 	}
-	if ((*tokens)->token.type != CHAMP_COMMENT) 
+	if ((*tokens)->token.type != CHAMP_COMMENT)
 	{
 		ft_putstr("No .comment token\n");
 		exit (0);
