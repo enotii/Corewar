@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/26 04:48:32 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/26 15:42:02 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ char			form_byte_args(t_command *command)
 	return (args[0] << 6 | args[1] << 4 | args[2] << 2);
 }
 
-char			*commands_to_bytecode(t_program program)
+char			*commands_to_bytecode(t_program program, char *filename)
 {
 	char		body[program.header.prog_size];
-	int			fd = open(program.header.prog_name, O_CREAT | O_RDWR);
+	char		*new_filename = malloc(ft_strlen(filename) + 3);
+
+	ft_strcpy(new_filename, ft_strsplitlast(filename,'/'));
+	ft_memcpy(&new_filename[ft_strlen(ft_strsplitlast(filename,'/')) - 1], "cor\0", 4);
+	int			fd = open(new_filename, O_CREAT | O_RDWR);
 	uint16_t	x = 1;
 	int			endianess = *(uint8_t*)&x == 0 ? 1 : 0;
 
@@ -260,14 +264,14 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 	}
 	if (found)
 	{
-		printf("%s %d\n", list->label_name, list->label_position);
+		//printf("%s %d\n", list->label_name, list->label_position);
 		if (command->types[count] == INDIRECT_LABEL)
 			command->values[count] = list->label_position; // PLACEHOLDER !!!
 		else
 		{
 			command->values[count] = list->label_position - bytes;
 			command->values[count] -= command->values[count] > 0 ? - args_bytes : - args_bytes;
-			printf("%d, %d\n", bytes, args_bytes);
+			//printf("%d, %d\n", bytes, args_bytes);
 		}
 	}
 	else
@@ -358,7 +362,7 @@ char			*parse_file(char *filename) //file to string
 		content = ft_strtrim(new_str);
 		free(new_str);
 	}
-	return (commands_to_bytecode(tokens_to_commands(file_to_tokens(content))));
+	return (content);
 }
 
 int				main(int argc, char **argv)
@@ -370,6 +374,6 @@ int				main(int argc, char **argv)
 	argv[argc - 1][name_len - 2] != '.')
 		ft_putstr("Invalid file :c");
 	else
-		parse_file(argv[argc - 1]);
+		commands_to_bytecode(tokens_to_commands(file_to_tokens(parse_file(argv[argc - 1]))), argv[argc - 1]);
 	return(0);
 }
