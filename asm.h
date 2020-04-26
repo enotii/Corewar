@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 20:05:28 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/26 15:44:59 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,15 @@ int				adddirectarg(t_token_list *ret, char *str, int *i);
 int				addregisterarg(t_token_list *ret, char *substring);
 int				addindirectarg(t_token_list *ret, char *str);
 int				addindirectlabelarg(t_token_list *ret, char *str, int *i);
+char			*commands_to_bytecode(t_program program, char *filename);
+char			form_byte_args(t_command *command);
+int32_t			transform_int_32(int32_t integer, int is_big);
+int16_t			transform_int_16(int16_t integer, int is_big);
+void			handle_name(t_token_list **tokens, t_program *program);
+void			handle_comment(t_token_list **tokens, t_program *program);
+void			manage_args(t_token_list **list, t_command_list *result, t_program *prog);
+t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_list **last_label);
+void			replace_one_label_by_value(t_command *command, int count, t_label_list *list, int bytes, int args_bytes);
+void			replace_labels_with_values(t_program *prog);
+t_program		tokens_to_commands(t_token_list *tokens);
 #endif
