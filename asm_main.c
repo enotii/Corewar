@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/25 22:01:49 by ilya             ###   ########.fr       */
+/*   Updated: 2020/04/26 04:48:32 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 	return (result);
 }
 
-void			replace_one_label_by_value(t_command *command, int count, t_label_list *list, int bytes)
+void			replace_one_label_by_value(t_command *command, int count, t_label_list *list, int bytes, int args_bytes)
 {
 	int found = 0;
 
@@ -260,10 +260,15 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 	}
 	if (found)
 	{
+		printf("%s %d\n", list->label_name, list->label_position);
 		if (command->types[count] == INDIRECT_LABEL)
 			command->values[count] = list->label_position; // PLACEHOLDER !!!
 		else
-			command->values[count] = list->label_position - bytes + 1; // PLACEHOLDER !!!
+		{
+			command->values[count] = list->label_position - bytes;
+			command->values[count] -= command->values[count] > 0 ? - args_bytes : - args_bytes;
+			printf("%d, %d\n", bytes, args_bytes);
+		}
 	}
 	else
 	{
@@ -286,11 +291,12 @@ void			replace_labels_with_values(t_program *prog)
 			continue;
 		}
 		int			count = 0;
+		int			count_args_len = -byte_count;
 		byte_count += 1 + op_tab[list->command.op_code -1].arg_types_code;
 		while (count < op_tab[list->command.op_code - 1].args_num)
 		{
 			if (list->command.types[count] == INDIRECT_LABEL || list->command.types[count] == DIRECT_LABEL)
-				replace_one_label_by_value(&list->command, count, prog->labels, byte_count);
+				replace_one_label_by_value(&list->command, count, prog->labels, byte_count, count_args_len + byte_count);
 			if (list->command.types[count] == REGISTER)
 				byte_count += 1;
 			else if (list->command.types[count] == INDIRECT || list->command.types[count] == INDIRECT_LABEL)
