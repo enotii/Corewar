@@ -50,7 +50,7 @@ fork3:		live	%42
 		fork	%:roger
 		ld	%0,r15	
 		zjmp	%:torp
-leon:		ld      %0,r2
+leon:		ld      %0,r3
 leon_live:	live    %42
 		ldi     %:leon,r2,r3
 		sti     r3,r8,r2

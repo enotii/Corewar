@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/26 15:44:59 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/27 22:55:08 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum		s_token_type
 	CHAMP_COMMENT, //done
 	OPERATION, //done
 	SEPARATOR, //done
-	REGISTER //done
+	REGISTER, //done
+	COMMENT
 }					t_token_type;
 
 typedef struct		s_token

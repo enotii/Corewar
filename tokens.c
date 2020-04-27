@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/04/25 16:26:01 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/27 22:22:37 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,16 @@ int						addindirectlabelarg(t_token_list *ret, char *str, int *i)
 	return (0);
 }
 
+
+int						addaltcomment(t_token_list *ret, char *str, int *i)
+{
+			while (str[*i] && str[*i] != '\n')
+				++(*i);
+			ret->token.type = COMMENT;
+			ret->next = NULL;
+			return (0);
+}
+
 t_token_list			*get_next_token(char **orig_string)
 {
 	t_token_list		*ret = malloc(sizeof(t_token_list));
@@ -236,12 +246,7 @@ t_token_list			*get_next_token(char **orig_string)
 		if (str[i] == '"' && !substring)
 			i += addstring(ret, &str[i]);
 		else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
-		{
-			while (str[i] && str[i] != '\n')
-				++i;
-			*orig_string = &str[i];
-			return (get_next_token(orig_string));
-		}
+			addaltcomment(ret, str, &i);
 		else if (str[i] == SEPARATOR_CHAR)
 			addseparator(ret, &i);
 		else if(str[i] == DIRECT_CHAR)
@@ -260,6 +265,11 @@ t_token_list		*file_to_tokens(char *str) //string to prebyte-code
 	while (*str)
 	{
 		t_token_list	*next = get_next_token(&str);
+		if (next->token.type == COMMENT)
+		{
+			free(next);
+			continue ;
+		}
 		if (list == NULL)
 		{
 			list = next;

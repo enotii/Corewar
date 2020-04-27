@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/26 15:42:02 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/27 22:48:40 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 	{
 		result->command.is_label = 1;
 		t_label_list *next = malloc(sizeof(t_label_list));
+		// printf("%s\n", (*list)->token.label);
 		next->label_name = ft_strdup((*list)->token.label);
 		next->label_position = prog->header.prog_size;
 		next->next = NULL;
@@ -255,6 +256,7 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 
 	while (list)
 	{
+		// printf("%s\n", list->label_name);
 		if (!ft_strcmp(list->label_name, command->labels[count]))
 		{
 			found = 1;
@@ -263,20 +265,11 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 		list = list->next;
 	}
 	if (found)
-	{
-		//printf("%s %d\n", list->label_name, list->label_position);
-		if (command->types[count] == INDIRECT_LABEL)
-			command->values[count] = list->label_position; // PLACEHOLDER !!!
-		else
-		{
-			command->values[count] = list->label_position - bytes;
-			command->values[count] -= command->values[count] > 0 ? - args_bytes : - args_bytes;
-			//printf("%d, %d\n", bytes, args_bytes);
-		}
-	}
+		command->values[count] = list->label_position - bytes + args_bytes; // PLACEHOLDER !!!
 	else
 	{
 		ft_putstr("Reference to undefined label\n");
+		//ft_putstr(command->labels[count]);
 		exit (0);
 	}
 
@@ -351,18 +344,26 @@ char			*parse_file(char *filename) //file to string
 	char	*content = NULL;
 	char	buffer[1000];
 	int		num = 0;
+	char	*new_str = NULL;
 
+	if (fd <= 0)
+	{
+		ft_putstr("File does not exist");
+		exit (0);
+	}
 	while ((num = read(fd, buffer, 1000)) > 0)
 	{
-		char	*new_str = (char*)malloc(ft_strlen(content) + num + 1);
+		new_str = (char*)malloc(ft_strlen(content) + num + 1);
 		ft_memcpy(new_str, content, ft_strlen(content));
 		ft_memcpy(new_str + ft_strlen(content), buffer, num);
 		new_str[ft_strlen(content) + num] = '\0';
 		free(content);
-		content = ft_strtrim(new_str);
-		free(new_str);
+		content = new_str;
 	}
-	return (content);
+	
+	new_str = ft_strtrim(content);
+	free(content);
+	return (new_str);
 }
 
 int				main(int argc, char **argv)
