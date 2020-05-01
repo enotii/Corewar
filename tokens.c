@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/04/27 22:22:37 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 17:15:29 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ void					addseparator(t_token_list	*ret, int *i)
 	*i = *i + 1;
 }
 
-int						skip_whitespaces(char *str)
+int						skip_whitespaces(char *str, int *countstr)
 {
 	int i = 0;
 	while ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\n')
-			|| (str[i] == '\v') || (str[i] == '\f') || (str[i] == '\r'))
+			|| (str[i] == '\v') || (str[i] == '\f') || (str[i] == '\r')){
+		if(str[i] == '\n'){
+			(*countstr)++;
+		}
 		i++;
+	}
 	return (i);
 }
 
@@ -60,7 +64,7 @@ int						skip_until_next_token(int i, char *str)
 	return (j);
 }
 
-int						addstring(t_token_list *ret, char *str)
+int						addstring(t_token_list *ret, char *str, int *countstr)
 {
 	int					end_string;
 
@@ -69,7 +73,11 @@ int						addstring(t_token_list *ret, char *str)
 	ret->token.type = STRING;
 	ret->next = NULL;
 	while (str[end_string + 1] && str[end_string + 1] != '"')
+	{
+		if(str[end_string] == '\n')
+			(*countstr)++;
 		end_string++;
+	}
 	if (str[end_string])
 	{
 		ret->token.string = ft_strsub(str, 1, end_string);
@@ -219,9 +227,10 @@ t_token_list			*get_next_token(char **orig_string)
 	char				*substring;
 	int 				i = 0;
 	int					j = 0;
+	static int			countstr = 1;
 
 	substring = NULL;
-	i =	skip_whitespaces(str);
+	i =	skip_whitespaces(str, &countstr);
 	j = skip_until_next_token(i, str);
 	if (j)
 		substring = ft_strsub(str, i, j);
@@ -244,7 +253,7 @@ t_token_list			*get_next_token(char **orig_string)
 	else
 	{
 		if (str[i] == '"' && !substring)
-			i += addstring(ret, &str[i]);
+			i += addstring(ret, &str[i], &countstr);
 		else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
 			addaltcomment(ret, str, &i);
 		else if (str[i] == SEPARATOR_CHAR)
@@ -254,6 +263,7 @@ t_token_list			*get_next_token(char **orig_string)
 		else if(str[i] == LABEL_CHAR)
 			addindirectlabelarg(ret, str, &i);
 	}
+	ret->token.str_num = countstr;
 	*orig_string = &str[i];
 	return (ret);
 }
