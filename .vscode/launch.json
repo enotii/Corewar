@@ -9,7 +9,7 @@
     "type": "cppdbg",
     "request": "launch",
     "program": "${workspaceFolder}/a.out",
-    "args": ["slider2.s"],
+    "args": ["barriere.s"],
     "stopAtEntry": true,
     "cwd": "${workspaceFolder}",
     "environment": [],

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplitlast.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 00:43:05 by caking            #+#    #+#             */
-/*   Updated: 2020/04/26 15:43:27 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 17:51:09 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char			*ft_strsplitlast(char const *s, char c)
 	int		j;
 	int		k;
 	char	**str2;
+	char	*ret;
 
 	if (!s || !(str2 = (char **)malloc(sizeof(*str2) *
 		(ft_countwords(s, c) + 1))))
@@ -52,5 +53,10 @@ char			*ft_strsplitlast(char const *s, char c)
 			str2[i][k++] = s[j++];
 		str2[i][k] = '\0';
 	}
-	return (str2[i-1]);
+	ret = str2[i - 1];
+	i = -1;
+	while (++i + 1 < ft_countwords(s, c))
+		free(str2[i]);
+	free(str2);
+	return (ret);
 }

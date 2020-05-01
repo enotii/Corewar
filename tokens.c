@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/04/27 22:22:37 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 16:54:28 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ t_token_list			*get_next_token(char **orig_string)
 			addregisterarg(ret,substring);
 		else
 			addindirectarg(ret, substring);
+		free(substring);
 	}
 	else
 	{
@@ -260,6 +261,7 @@ t_token_list			*get_next_token(char **orig_string)
 
 t_token_list		*file_to_tokens(char *str) //string to prebyte-code
 {
+	char			*str_double = str;
 	t_token_list	*list = NULL;
 	t_token_list	*list_last = NULL;
 	while (*str)
@@ -281,5 +283,6 @@ t_token_list		*file_to_tokens(char *str) //string to prebyte-code
 			list_last = next;
 		}
 	}
+	free(str_double);
 	return (list);
 }

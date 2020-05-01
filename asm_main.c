@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/04/27 22:48:40 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 17:55:49 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ int32_t			transform_int_32(int32_t integer, int is_big)
 	return (integer);
 }
 
+void			free_commands(t_command_list *list)
+{
+	while (list)
+	{
+		t_command_list *next = list->next;
+		if (!list->command.is_label)
+		{
+			free(list->command.labels[0]);
+			free(list->command.labels[1]);
+			free(list->command.labels[2]);
+		}
+		free(list);
+		list = next;
+	}
+}
+
 char			form_byte_args(t_command *command)
 {
 	char		args[3] = {0, 0, 0};
@@ -60,10 +76,12 @@ char			*commands_to_bytecode(t_program program, char *filename)
 {
 	char		body[program.header.prog_size];
 	char		*new_filename = malloc(ft_strlen(filename) + 3);
-
-	ft_strcpy(new_filename, ft_strsplitlast(filename,'/'));
-	ft_memcpy(&new_filename[ft_strlen(ft_strsplitlast(filename,'/')) - 1], "cor\0", 4);
+	char		*split = ft_strsplitlast(filename,'/');
+	ft_strcpy(new_filename, split);
+	ft_memcpy(&new_filename[ft_strlen(split) - 1], "cor\0", 4);
+	free(split);
 	int			fd = open(new_filename, O_CREAT | O_RDWR);
+	free(new_filename);
 	uint16_t	x = 1;
 	int			endianess = *(uint8_t*)&x == 0 ? 1 : 0;
 
@@ -118,6 +136,7 @@ char			*commands_to_bytecode(t_program program, char *filename)
 		list = list->next;
 	}
 	write(fd, body, program.header.prog_size);
+	free_commands(program.list);
 	return (NULL);
 }
 
@@ -171,6 +190,9 @@ void			manage_args(t_token_list **list, t_command_list *result, t_program *prog)
 	*list = (*list)->next;
 	count = 0;
 	result->command.op_code = op_code;
+	result->command.labels[0] = NULL;
+	result->command.labels[1] = NULL;
+	result->command.labels[2] = NULL;
 	while (count < op_tab[op_code - 1].args_num)
 	{
 		if ((!(op_tab[op_code -1].valid_arg_types[count] & T_REG) && (*list)->token.type == REGISTER)
@@ -233,11 +255,11 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 			(*last_label)->next = next;
 			*last_label = next;
 		}
-		result->command.is_label = 1;
 		*list = (*list)->next;
 	}
 	else
 	{
+		result->command.is_label = 0;
 		if ((*list)->token.type != OPERATION)
 		{
 			ft_putstr("Sintaxic error\n");
@@ -306,6 +328,35 @@ void			replace_labels_with_values(t_program *prog)
 	}
 }
 
+void			free_tokens(t_token_list *tokens)
+{
+	while (tokens)
+	{
+		t_token_list *next = tokens->next;
+		if (tokens->token.type == STRING)
+			free(tokens->token.string);
+		else if (tokens->token.type == LABEL)
+			free(tokens->token.label);
+		else if (tokens->token.type == INDIRECT_LABEL)
+			free(tokens->token.indirect_label);
+		else if (tokens->token.type == DIRECT_LABEL)
+			free(tokens->token.direct_label);
+		free(tokens);
+		tokens = next;
+	}
+}
+
+void			free_labels(t_label_list *labels)
+{
+	while (labels)
+	{
+		t_label_list *next = labels->next;
+		free(labels->label_name);
+		free(labels);
+		labels = next;
+	}
+}
+
 t_program		tokens_to_commands(t_token_list *tokens)
 {
 	t_program		result;
@@ -335,6 +386,8 @@ t_program		tokens_to_commands(t_token_list *tokens)
 	}
 	replace_labels_with_values(&result);
 	result.header.prog_size += 16 + PROG_NAME_LENGTH + COMMENT_LENGTH;
+	free_tokens(tokens);
+	free_labels(result.labels);
 	return (result);
 }
 
@@ -360,7 +413,7 @@ char			*parse_file(char *filename) //file to string
 		free(content);
 		content = new_str;
 	}
-	
+
 	new_str = ft_strtrim(content);
 	free(content);
 	return (new_str);
