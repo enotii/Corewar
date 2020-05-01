@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/04/27 22:55:08 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 16:55:12 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct		s_token_list
 typedef struct		s_command
 {
 	int				is_label;
+	int				str_num;
 	int				op_code;
 	int				types[3];
 	int				values[3];
@@ -95,11 +96,11 @@ t_token_list	*file_to_tokens(char *str);
 t_token_list	*get_next_token(char **orig_string);
 void			addlstname(t_token_list	*ret);
 void			addlstcomment(t_token_list	*ret);
-int				skip_whitespaces(char *str);
+int				skip_whitespaces(char *str, int *countstr);
 void			addseparator(t_token_list	*ret, int *i);
 int				addlabel(t_token_list *ret, char *substring, int *i);
 int				puterror(int i);
-int				addstring(t_token_list *ret, char *str);
+int				addstring(t_token_list *ret, char *str, int *countstr);
 int				skip_until_next_token(int i, char *str);
 int				check_commands(char *substring);
 int				add_command(t_token_list *ret, int j);

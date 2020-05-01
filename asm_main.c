@@ -6,7 +6,7 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/05/01 17:55:49 by ilya             ###   ########.fr       */
+/*   Updated: 2020/05/01 17:59:57 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 	if ((*list)->token.type == LABEL)
 	{
 		result->command.is_label = 1;
+		result->command.str_num = (*list)->token.str_num;
 		t_label_list *next = malloc(sizeof(t_label_list));
 		// printf("%s\n", (*list)->token.label);
 		next->label_name = ft_strdup((*list)->token.label);
@@ -267,6 +268,7 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 		}
 		prog->header.prog_size += 1;
 		prog->header.prog_size += op_tab[(*list)->token.op_code - 1].arg_types_code;
+		result->command.str_num = (*list)->token.str_num;
 		manage_args(list, result, prog);
 	}
 	return (result);
@@ -291,7 +293,8 @@ void			replace_one_label_by_value(t_command *command, int count, t_label_list *l
 	else
 	{
 		ft_putstr("Reference to undefined label\n");
-		//ft_putstr(command->labels[count]);
+		ft_putstr(command->labels[count]);
+		printf("\t%d",command->str_num);
 		exit (0);
 	}
 
