@@ -6,13 +6,13 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/05/01 16:55:12 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/01 18:20:39 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include "op.h"
 # include <sys/types.h>
 # include <sys/stat.h>

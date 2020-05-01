@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/25 17:05:31 by caking           ###   ########.fr        #
+#    Updated: 2020/05/01 18:18:06 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = asm
 
 LIB = -I libft/ -L./libft -lft
 
-SRC = asm_main.c tokens.c
+SRC = assembler/asm_main.c assembler/tokens.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -30,7 +30,7 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -rf libft/*.o
-	rm -rf *.o
+	rm -rf assembler/*.o
 
 fclean: clean
 	rm -rf $(NAME)
