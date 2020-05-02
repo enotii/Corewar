@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/05/01 18:34:36 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/02 19:55:09 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,60 +220,72 @@ int						addaltcomment(t_token_list *ret, char *str, int *i)
 			return (0);
 }
 
-t_token_list			*get_next_token(char **orig_string)
+void			norm(t_tokens_stuff			*t)
 {
-	t_token_list		*ret = malloc(sizeof(t_token_list));
-	char				*str = *orig_string;
-	char				*substring;
-	int 				i = 0;
-	int					j = 0;
-	static int			countstr = 1;
+	if (!ft_strcmp(t->substring, NAME_CMD_STRING))
+		addlstname(t->ret);
+	else if (!ft_strcmp(t->substring ,COMMENT_CMD_STRING))
+		addlstcomment(t->ret);
+	else if(t->str[t->i] == LABEL_CHAR)
+		addlabel(t->ret, t->substring, &(t->i));
+	else if ((t->j = check_commands(t->substring)))
+		addcommand(t->ret, t->j);
+	else if(t->substring[0] == 'r')
+		addregisterarg(t->ret, t->substring);
+	else
+		addindirectarg(t->ret, t->substring);
+}
 
-	substring = NULL;
-	i =	skip_whitespaces(str, &countstr);
-	j = skip_until_next_token(i, str);
-	if (j)
-		substring = ft_strsub(str, i, j);
-	i += j;
-	if(substring)
+void			norm2(t_tokens_stuff	*t, int *countstr)
+{
+	if (t->str[t->i] == '"' && !t->substring)
+		t->i += addstring(t->ret, &(t->str[t->i]), countstr);
+	else if (t->str[t->i] == COMMENT_CHAR || t->str[t->i] == ALT_COMMENT_CHAR)
+		addaltcomment(t->ret, t->str, &(t->i));
+	else if (t->str[t->i] == SEPARATOR_CHAR)
+		addseparator(t->ret, &(t->i));
+	else if(t->str[t->i] == DIRECT_CHAR)
+		adddirectarg(t->ret, t->str, &(t->i));
+	else if(t->str[t->i] == LABEL_CHAR)
+		addindirectlabelarg(t->ret, t->str, &(t->i));
+}
+
+t_token_list				*get_next_token(char **orig_string)
+{
+	static int				countstr = 1;
+	t_tokens_stuff			t;
+
+	t.ret = malloc(sizeof(t_token_list));
+	t.str = *orig_string;
+	t.i = 0;
+	t.j = 0;
+	t.substring = NULL;
+	t.i =	skip_whitespaces(t.str, &countstr);
+	t.j = skip_until_next_token(t.i, t.str);
+	if (t.j)
+		t.substring = ft_strsub(t.str, t.i, t.j);
+	t.i += t.j;
+	if(t.substring)
 	{
-		if (!ft_strcmp(substring, NAME_CMD_STRING))
-			addlstname(ret);
-		else if (!ft_strcmp(substring ,COMMENT_CMD_STRING))
-			addlstcomment(ret);
-		else if(str[i] == LABEL_CHAR)
-			addlabel(ret, substring, &i);
-		else if ((j = check_commands(substring)))
-			addcommand(ret, j);
-		else if(substring[0] == 'r')
-			addregisterarg(ret,substring);
-		else
-			addindirectarg(ret, substring);
-		free(substring);
+		norm(&t);
+		free(t.substring);
 	}
 	else
-	{
-		if (str[i] == '"' && !substring)
-			i += addstring(ret, &str[i], &countstr);
-		else if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
-			addaltcomment(ret, str, &i);
-		else if (str[i] == SEPARATOR_CHAR)
-			addseparator(ret, &i);
-		else if(str[i] == DIRECT_CHAR)
-			adddirectarg(ret, str, &i);
-		else if(str[i] == LABEL_CHAR)
-			addindirectlabelarg(ret, str, &i);
-	}
-	ret->token.str_num = countstr;
-	*orig_string = &str[i];
-	return (ret);
+		norm2(&t, &countstr);
+	t.ret->token.str_num = countstr;
+	*orig_string = &t.str[t.i];
+	return (t.ret);
 }
 
 t_token_list		*file_to_tokens(char *str) //string to prebyte-code
 {
-	char			*str_double = str;
-	t_token_list	*list = NULL;
-	t_token_list	*list_last = NULL;
+	char			*str_double;
+	t_token_list	*list;
+	t_token_list	*list_last;
+
+	str_double = str;
+	list = NULL;
+	list_last = NULL;
 	while (*str)
 	{
 		t_token_list	*next = get_next_token(&str);
@@ -283,15 +295,10 @@ t_token_list		*file_to_tokens(char *str) //string to prebyte-code
 			continue ;
 		}
 		if (list == NULL)
-		{
 			list = next;
-			list_last = next;
-		}
 		else
-		{
 			list_last->next = next;
-			list_last = next;
-		}
+		list_last = next;
 	}
 	free(str_double);
 	return (list);

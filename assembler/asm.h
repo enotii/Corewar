@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/05/01 18:20:39 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/02 19:50:22 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ typedef struct		s_program
 	t_command_list	*list;
 	t_label_list	*labels;
 }					t_program;
+
+typedef struct		s_tokens_stuff
+{
+	t_token_list		*ret;
+	char				*str;
+	char				*substring;
+	int 				i;
+	int					j;
+}					t_tokens_stuff;
 
 char			*parse_file(char *filename);
 t_token_list	*file_to_tokens(char *str);
