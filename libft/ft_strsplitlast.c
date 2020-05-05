@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplitlast.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 00:43:05 by caking            #+#    #+#             */
-/*   Updated: 2020/05/01 17:51:09 by ilya             ###   ########.fr       */
+/*   Updated: 2020/05/05 18:57:50 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ static int		get_word_len(char const *str, char c)
 		len++;
 	}
 	return (len);
+}
+
+void			free_norm(int i, char **str2, const char *s, char c)
+{
+	i = -1;
+	while (++i + 1 < ft_countwords(s, c))
+		free(str2[i]);
+	free(str2);
 }
 
 char			*ft_strsplitlast(char const *s, char c)
@@ -54,9 +62,6 @@ char			*ft_strsplitlast(char const *s, char c)
 		str2[i][k] = '\0';
 	}
 	ret = str2[i - 1];
-	i = -1;
-	while (++i + 1 < ft_countwords(s, c))
-		free(str2[i]);
-	free(str2);
+	free_norm(i, str2, s, c);
 	return (ret);
 }

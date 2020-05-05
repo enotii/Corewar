@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/05/02 20:19:42 by caking           ###   ########.fr       */
+/*   Updated: 2020/05/05 18:58:25 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char			form_byte_args(t_command *command)
 
 int				open_file(char *filename)
 {
-	cchar		*new_filename = malloc(ft_strlen(filename) + 3);
+	char		*new_filename = malloc(ft_strlen(filename) + 3);
 	char		*split = ft_strsplitlast(filename,'/');
 	int			fd;
 
