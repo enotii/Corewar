@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Student <Student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 15:33:06 by sscottie          #+#    #+#             */
-/*   Updated: 2020/02/12 01:31:53 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/05/03 21:15:21 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 8
+# define BUFF_SIZE 16
 
 # include <fcntl.h>
 # include "libft.h"
