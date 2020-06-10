@@ -6,7 +6,7 @@
 #    By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/14 14:32:21 by sscottie          #+#    #+#              #
-#    Updated: 2020/03/14 16:31:12 by sscottie         ###   ########.fr        #
+#    Updated: 2020/06/10 18:06:39 by sscottie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ HEADER		= vm.h
 PF_H		= ft_printf.h
 PF_INC		= -I ./lib/ft_printf/include
 
-SRC_VM_C		= corewar.c \
+SRC_VM_C	= corewar.c \
+				player.c
 
 SRC_VM	= $(addprefix $(SRC_DIR), $(SRC_VM_C))
 OBJ_VM	= $(addprefix $(OBJ_DIR), $(patsubst %.c, %.o, $(SRC_VM_C)))

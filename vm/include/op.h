@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2020/03/14 15:20:35 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/05/24 00:20:26 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,16 @@ typedef char  t_arg_type;
 
 typedef struct	header_s
 {
-  unsigned int	magic;
-  char	prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int	prog_size;
-  char	comment[COMMENT_LENGTH + 1];
-}		header_t;
+	unsigned int	magic;
+	char	prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int	prog_size;
+	char	comment[COMMENT_LENGTH + 1];
+}		            header_t;
+
+// typedef struct s_player
+// {
+// 	header_t     header;
+	
+
+// }               t_player;
+
