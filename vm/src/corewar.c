@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 14:25:04 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/11 01:01:28 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/11 03:27:05 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,13 @@ int     main(int ac, char **av)
 	{
 		init_flags(&cor);
 		parser(ac, av, &cor);
+		arena(&cor);
+		zero_live(&cor);
+		go_cor(&cor);
+		if (cor.n)
+			ft_printf("Contestant %d, \"%s\", has won !\n", cor.live.id_live,
+				(cor.ch[cor.live.id_live - 1]).prog_name);
+		free_cor(&cor);
 	}
 	else
 	{

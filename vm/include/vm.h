@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vm.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/11 03:27:18 by sscottie          #+#    #+#             */
+/*   Updated: 2020/06/11 03:27:20 by sscottie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VM_H
 # define VM_H
 
@@ -291,6 +303,8 @@ typedef struct		s_header
 	char			comment[COMMENT_LENGTH + 1];
 }					t_header_s;
 
+void	parser(int ac, char **av, t_cw *cor);
+void	exit_print(char *str);
 
 
 
