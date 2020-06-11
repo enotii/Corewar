@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/11 03:27:18 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/11 03:27:20 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/11 15:20:09 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,9 @@ typedef struct		s_header
 
 void	parser(int ac, char **av, t_cw *cor);
 void	exit_print(char *str);
-
+void	make_player_n(char **av, int n, t_cw *cor);
+void	valid_player(int i, char **av, t_player *player);
+void	write_header(int fd, char *file_name, t_player *player);
 
 
 #endif

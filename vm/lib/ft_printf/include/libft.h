@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 16:28:48 by sscottie          #+#    #+#             */
-/*   Updated: 2020/02/12 15:39:38 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/11 15:27:22 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ double				ft_fabs(double x);
 void				ft_free_2d_arr(char **ar);
 int					ft_sum(int count, const int *arr);
 void				ft_int_bzero(int *arr);
+unsigned char		*ft_strnew_uc(size_t size);
+int					ft_uc_to_int(unsigned char *c);
 
 #endif

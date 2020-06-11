@@ -6,7 +6,7 @@
 #    By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 18:10:05 by rdonnor           #+#    #+#              #
-#    Updated: 2020/03/14 14:44:55 by sscottie         ###   ########.fr        #
+#    Updated: 2020/06/11 15:27:07 by sscottie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,10 @@ LFT_SRC =   ft_abs.c \
             ft_toupper.c \
             ft_free_2d_arr.c \
             ft_sum.c \
-			ft_int_bzero.c
+			ft_int_bzero.c \
+            ft_strnew_uc.c \
+            ft_uc_to_int.c \
+            
 
 PF_SRC =	convert_float.c \
             crossroads.c \
