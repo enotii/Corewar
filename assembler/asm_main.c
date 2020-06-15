@@ -6,11 +6,11 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/05/05 18:58:25 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/15 21:50:38 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "../includes/asm.h"
 
 int16_t			transform_int_16(int16_t integer, int is_big)
 {

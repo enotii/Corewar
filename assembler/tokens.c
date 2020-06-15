@@ -6,11 +6,11 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/05/02 19:55:09 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/15 21:50:59 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "../includes/asm.h"
 
 int					puterror(int i)
 {
