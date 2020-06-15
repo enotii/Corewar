@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caking <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 00:14:47 by caking            #+#    #+#             */
-/*   Updated: 2018/12/19 00:46:13 by caking           ###   ########.fr       */
+/*   Updated: 2020/04/26 15:23:36 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ char				*ft_strjoinchcl(char *s1, char c);
 int					ft_count2darray(char **arr);
 int					ft_strarrmax(char **arr);
 char				*ft_get_parent_path(char *path);
+char				*ft_strsplitlast(char const *s, char c);
 
 #endif

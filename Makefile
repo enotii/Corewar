@@ -6,15 +6,15 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/04/18 23:21:03 by caking           ###   ########.fr        #
+#    Updated: 2020/05/01 18:18:06 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = asm
 
-LIB = -I libft/libft.h -L./libft -lft
+LIB = -I libft/ -L./libft -lft
 
-SRC = asm_main.c
+SRC = assembler/asm_main.c assembler/tokens.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -24,13 +24,13 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME):  $(OBJ)
+$(NAME): $(OBJ)
 	make -C libft/
 	gcc $(FLAGS) $(OBJ) -o $(NAME) $(LIB)
 
 clean:
 	rm -rf libft/*.o
-	rm -rf *.o
+	rm -rf assembler/*.o
 
 fclean: clean
 	rm -rf $(NAME)
@@ -41,5 +41,12 @@ re: fclean all
 norm:
 	norminette -R CheckForbiddenSourceHeader *
 
-debug: 
-	gcc -ggdb asm_main.c -I asm.h $(LIB)
+debug:
+	gcc -ggdb $(SRC) $(LIB)
+
+byte:
+	xxd 42.cor > 1.hex
+byte2:
+	xxd 42 > 2.hex
+change: 
+	diff 1.hex 2.hex > change.diff
