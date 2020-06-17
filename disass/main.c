@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 21:43:14 by ilya              #+#    #+#             */
-/*   Updated: 2020/06/15 22:05:55 by ilya             ###   ########.fr       */
+/*   Updated: 2020/06/17 23:51:06 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "../includes/asm.h"
 
 char			*parse_bytecode(char *filename, int *size) //file to string
 {
@@ -71,5 +71,5 @@ int main(int argc, char **argv)
 	int		fd = open("new_file.s", O_CREAT);
 	disass(file, fd, size);
 	free(file);
-	return (0);
+	 return (0);
 }
