@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 13:45:46 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 13:49:17 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/18 22:45:37 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-static void		ft_get_argc(char *b2, t_cor *cor, t_carr *tmp, int f_err)
+static void		ft_get_argc(char *b2, t_cw *cor, t_carriage *tmp, int f_err)
 {
 	unsigned char	t_reg;
 	unsigned char	t_reg_2;
@@ -41,7 +41,7 @@ static void		ft_get_argc(char *b2, t_cor *cor, t_carr *tmp, int f_err)
 	}
 }
 
-void			ft_add(t_cor *cor, t_carr *tmp)
+void			ft_add(t_cw *cor, t_carriage *tmp)
 {
 	char			*b2;
 	int				f_err;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_zjmp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:20:57 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:21:09 by rdonnor          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:23:46 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void				ft_zjmp(t_cor *cor, t_carr *tmp)
+void				ft_zjmp(t_cw *cor, t_carriage *tmp)
 {
 	short	t_ind;
 	short	a;

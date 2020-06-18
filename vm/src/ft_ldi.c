@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ldi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/10 13:58:17 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:00:16 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:14:28 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
 static void		ldi_take_argc(unsigned char t_reg, int *k,
-		int *f_err, t_carr *tmp)
+		int *f_err, t_carriage *tmp)
 {
 	if (val_reg(t_reg))
 		*k += tmp->reg[(int)t_reg - 1];
@@ -21,7 +21,7 @@ static void		ldi_take_argc(unsigned char t_reg, int *k,
 		*f_err = 1;
 }
 
-static int		len_k(t_cor *cor, t_carr *tmp, char *b2, int *f_err)
+static int		len_k(t_cw *cor, t_carriage *tmp, char *b2, int *f_err)
 {
 	int				k;
 	unsigned char	t_reg;
@@ -48,7 +48,7 @@ static int		len_k(t_cor *cor, t_carr *tmp, char *b2, int *f_err)
 	return (k);
 }
 
-static void		print_ldi(t_cor *cor, t_carr *tmp, unsigned char t_reg, int k1)
+static void		print_ldi(t_cw *cor, t_carriage *tmp, unsigned char t_reg, int k1)
 {
 	if (cor->v_print[2] == 1)
 	{
@@ -61,8 +61,8 @@ static void		print_ldi(t_cor *cor, t_carr *tmp, unsigned char t_reg, int k1)
 	}
 }
 
-static void		ldi_get_argc(int k, t_carr *tmp,
-								unsigned char t_reg, t_cor *cor)
+static void		ldi_get_argc(int k, t_carriage *tmp,
+								unsigned char t_reg, t_cw *cor)
 {
 	k = mem_size(tmp->prog == 10 ? k % IDX_MOD : k);
 	tmp->reg[(int)t_reg - 1] =
@@ -71,7 +71,7 @@ static void		ldi_get_argc(int k, t_carr *tmp,
 		tmp->carry = (tmp->reg[t_reg - 1] == 0) ? 1 : 0;
 }
 
-void			ft_ldi(t_cor *cor, t_carr *tmp)
+void			ft_ldi(t_cw *cor, t_carriage *tmp)
 {
 	unsigned char	t_reg;
 	char			*b2;

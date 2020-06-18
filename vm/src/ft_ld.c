@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ld.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/09 13:55:32 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 13:57:36 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:13:28 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** ли в регистр записали число 0, то установить значение carry в 1
 */
 
-int		ft_ld_write(t_cor *cor, t_carr *tmp, int i, int l)
+int		ft_ld_write(t_cw *cor, t_carriage *tmp, int i, int l)
 {
 	short			t_ind;
 	unsigned int	t_dir;
@@ -47,7 +47,7 @@ int		ft_ld_write(t_cor *cor, t_carr *tmp, int i, int l)
 	return (1);
 }
 
-void	ft_ld(t_cor *cor, t_carr *tmp, int l)
+void	ft_ld(t_cw *cor, t_carriage *tmp, int l)
 {
 	char	*b2;
 	int		i;
@@ -72,7 +72,7 @@ void	ft_ld(t_cor *cor, t_carr *tmp, int l)
 	tmp->i = i;
 }
 
-int		ft_lld_write(t_cor *cor, t_carr *tmp, int i)
+int		ft_lld_write(t_cw *cor, t_carriage *tmp, int i)
 {
 	short			t_ind;
 	unsigned int	t_dir;
@@ -99,7 +99,7 @@ int		ft_lld_write(t_cor *cor, t_carr *tmp, int i)
 	return (1);
 }
 
-void	ft_lld(t_cor *cor, t_carr *tmp)
+void	ft_lld(t_cw *cor, t_carriage *tmp)
 {
 	char	*b2;
 	int		i;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_or_xoc.c                                        :+:      :+:    :+:   */
+/*   ft_or_xor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 14:15:55 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:17:02 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:17:02 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** возможно перед чтением дир нужно двигаться на i еще
 */
 
-void	ft_or(t_cor *cor, t_carr *tmp)
+void	ft_or(t_cw *cor, t_carriage *tmp)
 {
 	int				a1;
 	int				a2;
@@ -45,7 +45,7 @@ void	ft_or(t_cor *cor, t_carr *tmp)
 	free(b2);
 }
 
-void	ft_xor(t_cor *cor, t_carr *tmp)
+void	ft_xor(t_cw *cor, t_carriage *tmp)
 {
 	int				a1;
 	int				a2;

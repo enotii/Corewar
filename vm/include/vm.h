@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/11 03:27:18 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/11 15:20:09 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/19 00:48:45 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "op.h"
 # include "ft_printf.h"
+# include <ncurses.h>
 
 # define RUNNING 			713
 # define CYCLE_PER_SEC		1225
@@ -308,6 +309,51 @@ void	exit_print(char *str);
 void	make_player_n(char **av, int n, t_cw *cor);
 void	valid_player(int i, char **av, t_player *player);
 void	write_header(int fd, char *file_name, t_player *player);
+void	map(t_cw *cor);
+unsigned char		*ft_strncpy_all(unsigned char *dest,
+									const unsigned char *source, size_t n);
+t_carriage	*new_curr(int id_par, t_cw *cor);
+void	print_dump_code(t_cw *cor);
+void	print_adv(t_cw *cor, t_carriage *tmp);
+void	do_op(t_cw *cor, t_carriage *tmp);
+void	go_cor(t_cw *cor);
+t_carriage	*remove_head(t_cw *cor, t_carriage *curr);
+t_carriage	*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cor);
+void	add_curr(t_carriage **all_carr, t_carriage *new);
+unsigned char	read_byte_1(unsigned char *src, int i);
+short			read_byte_2(unsigned char *src, int i);
+unsigned int	read_byte_2_int(unsigned char *src, int i);
+unsigned int	read_byte_4(unsigned char *src, int i);
+unsigned int	read_byte_4_c(unsigned char *src, int i);
+int			to_int(unsigned char *c);
+int			val_reg(unsigned char reg);
+short				idx_mod(short t_ind);
+int					mem_size(int cur);
+char				*base16_2_cor(t_cw *cor, t_carriage *tmp);
+int					arg_4(char *b2, t_carriage *tmp, t_cw *cor, int *f_err);
+int					arg_2(char *b2, t_carriage *tmp, t_cw *cor, int *f_err);
+unsigned char		*inttobyte(int a);
+void	copy_p(void *dst, const void *src, int d_s, int s_s);
+int		ft_cycles_to(char p);
+void				free_cor(t_cw *cor);
 
+/*
+**	COMMANDS
+*/
+
+void			ft_add(t_cw *cor, t_carriage *tmp);
+void	ft_aff(t_cw *cor, t_carriage *tmp);
+void	ft_and(t_cw *cor, t_carriage *tmp);
+t_carriage				*ft_fork(t_cw *cor, t_carriage *tmp, int l);
+void	ft_ld(t_cw *cor, t_carriage *tmp, int l);
+void	ft_lld(t_cw *cor, t_carriage *tmp);
+void			ft_ldi(t_cw *cor, t_carriage *tmp);
+void	ft_live(t_cw *cor, t_carriage *tmp);
+void	ft_xor(t_cw *cor, t_carriage *tmp);
+void	ft_or(t_cw *cor, t_carriage *tmp);
+void	ft_st(t_cw *cor, t_carriage *tmp);
+void			ft_sti(t_cw *cor, t_carriage *tmp);
+void		ft_sub(t_cw *cor, t_carriage *tmp);
+void				ft_zjmp(t_cw *cor, t_carriage *tmp);
 
 #endif

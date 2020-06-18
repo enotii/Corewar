@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_live.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/13 14:02:33 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:02:59 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:16:07 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 ** cor->m_ch[i]->prog_name);
 */
 
-void	ft_live(t_cor *cor, t_carr *tmp)
+void	ft_live(t_cw *cor, t_carriage *tmp)
 {
 	unsigned int	t_dir;
 	int				i;
@@ -35,12 +35,12 @@ void	ft_live(t_cor *cor, t_carr *tmp)
 		ft_printf("P %4d | live %d\n", tmp->num, t_dir);
 	while (i < cor->n)
 	{
-		if ((cor->m_ch[i].id + 1) == -t_dir)
+		if ((cor->ch[i].id + 1) == -t_dir)
 		{
 			cor->live.id_live = i + 1;
 			if (cor->v_print[0] == 1)
 				ft_printf("Player %d (%s) is said to be alive\n", -t_dir,
-						cor->m_ch[i].prog_name);
+						cor->ch[i].prog_name);
 		}
 		i++;
 	}

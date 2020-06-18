@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_aff.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/07 13:50:12 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 13:51:44 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:07:00 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 ** ft_putchar('+');
 */
 
-void	set_aff(t_cor *cor, int *i)
+void	set_aff(t_cw *cor, int *i)
 {
 	(*i)++;
 	cor->aff = 1;
 }
 
-void	ft_aff(t_cor *cor, t_carr *tmp)
+void	ft_aff(t_cw *cor, t_carriage *tmp)
 {
 	char					*b2;
 	int						i;

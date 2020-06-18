@@ -6,7 +6,7 @@
 #    By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/14 14:32:21 by sscottie          #+#    #+#              #
-#    Updated: 2020/06/11 16:01:14 by sscottie         ###   ########.fr        #
+#    Updated: 2020/06/19 00:36:23 by sscottie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,26 @@ INCLUDES = -I ./include -I ./lib/ft_printf/include
 SOURCES_NAME = corewar.c \
 				parcer.c \
 				player.c \
+				map.c \
+				ft_add.c \
+				ft_aff.c \
+				ft_and.c \
+				ft_fork_lfork.c \
+				ft_ld.c \
+				ft_ldi.c \
+				ft_liba.c \
+				ft_live.c \
+				ft_or_xor.c \
+				ft_st.c \
+				ft_sti.c \
+				ft_sub.c \
+				ft_zjmp.c \
+				do_cmd.c \
+				carriage_list.c \
+				code_print.c \
+				reader.c \
+				arguments.c \
+				game.c
 
 SOURCES = $(addprefix $(SOURCES_PATH), $(SOURCES_NAME))
 OBJECTS_NAME = $(SOURCES_NAME:%.c=%.o)

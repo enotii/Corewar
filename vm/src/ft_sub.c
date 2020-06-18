@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sub.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/12 14:19:56 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:20:20 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:23:24 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-static void	ft_sub_1(t_cor *cor, t_carr *tmp)
+static void	ft_sub_1(t_cw *cor, t_carriage *tmp)
 {
 	unsigned char	t_reg;
 	unsigned char	t_reg_2;
@@ -32,7 +32,7 @@ static void	ft_sub_1(t_cor *cor, t_carr *tmp)
 	}
 }
 
-void		ft_sub(t_cor *cor, t_carr *tmp)
+void		ft_sub(t_cw *cor, t_carriage *tmp)
 {
 	char			*b2;
 	int				i;

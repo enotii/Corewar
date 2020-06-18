@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_and.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 13:52:27 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 13:52:56 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:07:50 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void	ft_and(t_cor *cor, t_carr *tmp)
+void	ft_and(t_cw *cor, t_carriage *tmp)
 {
 	int				a1;
 	int				a2;

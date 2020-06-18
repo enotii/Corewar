@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_liba.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/10 14:01:00 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:01:49 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:39:46 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void				free_cor(t_cor *cor)
-{
-	int		i;
-	t_carr	*carr;
+// void				free_cor(t_cw *cor)
+// {
+// 	int		i;
+// 	t_carriage	*carr;
 
-	i = 0;
-	carr = cor->carr;
-	while (carr)
-		carr = remove_head(cor, carr);
-	while (i < cor->n && cor->m_ch[i].code)
-	{
-		free(cor->m_ch[i].code);
-		free(cor->m_ch[i].file_name);
-		i++;
-	}
-}
+// 	i = 0;
+// 	carr = cor->carr;
+// 	while (carr)
+// 		carr = remove_head(cor, carr);
+// 	while (i < cor->n && cor->ch[i].code)
+// 	{
+// 		free(cor->ch[i].code);
+// 		free(cor->ch[i].file_name);
+// 		i++;
+// 	}
+// }
 
 unsigned char		*ft_strncpy_all(unsigned char *dest,
 									const unsigned char *source, size_t n)

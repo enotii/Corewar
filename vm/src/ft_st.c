@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sti.c                                           :+:      :+:    :+:   */
+/*   ft_st.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/11 14:18:52 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 14:19:30 by Student          ###   ########.fr       */
+/*   Created: 2020/06/13 14:17:39 by rdonnor           #+#    #+#             */
+/*   Updated: 2020/06/19 00:18:56 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	copy_p(void *dst, const void *src, int d_s, int s_s)
 ** аргумента, в память по полученному адресу.
 */
 
-void	ft_st_write_2(unsigned char t_reg, t_cor *cor, t_carr *tmp)
+void	ft_st_write_2(unsigned char t_reg, t_cw *cor, t_carriage *tmp)
 {
 	unsigned char	t_reg_2;
 
@@ -70,7 +70,7 @@ void	ft_st_write_2(unsigned char t_reg, t_cor *cor, t_carr *tmp)
 					t_reg, t_reg_2 % IDX_MOD);
 }
 
-void	ft_st_write(t_cor *cor, t_carr *tmp, int b2_2)
+void	ft_st_write(t_cw *cor, t_carriage *tmp, int b2_2)
 {
 	unsigned char	*p;
 	short			t_ind;
@@ -95,7 +95,7 @@ void	ft_st_write(t_cor *cor, t_carr *tmp, int b2_2)
 	}
 }
 
-void	ft_st(t_cor *cor, t_carr *tmp)
+void	ft_st(t_cw *cor, t_carriage *tmp)
 {
 	char	*b2;
 	int		i;

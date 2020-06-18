@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fork_lfork.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdonnor <rdonnor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 13:53:36 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/17 13:54:57 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/19 00:09:09 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "vm.h"
 
 /*
 ** Операция fork делает копию каретки. И эту копию размещает
@@ -33,9 +33,9 @@
 ** }
 */
 
-t_carr				*ft_fork(t_cor *cor, t_carr *tmp, int l)
+t_carriage				*ft_fork(t_cw *cor, t_carriage *tmp, int l)
 {
-	t_carr			*new;
+	t_carriage			*new;
 	short			t_ind;
 	int				k;
 
