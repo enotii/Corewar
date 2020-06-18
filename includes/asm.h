@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/05/02 19:50:22 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/18 20:26:11 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,6 @@ t_command_list	*get_next_command(t_token_list **list, t_program *prog, t_label_l
 void			replace_one_label_by_value(t_command *command, int count, t_label_list *list, int bytes, int args_bytes);
 void			replace_labels_with_values(t_program *prog);
 t_program		tokens_to_commands(t_token_list *tokens);
+void			free_commands(t_command_list *list);
+int				open_file(char *filename);
 #endif
