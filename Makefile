@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/06/18 20:23:30 by caking           ###   ########.fr        #
+#    Updated: 2020/06/20 18:32:38 by ilya             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ1 = $(SRC1:.c=.o)
 
 OBJ2 = $(SRC2:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -ggdb
 
 all: $(NAME1) $(NAME2)
 
@@ -33,8 +33,7 @@ $(NAME1): $(OBJ1)
 	gcc $(FLAGS) $(OBJ1) -o $(NAME1) $(LIB)
 
 $(NAME2): $(OBJ2)
-	make -C libft/
-	gcc $(FLAGS) $(OBJ2) -o $(NAME2) $(LIB)
+	gcc $(FLAGS) $(SRC2) -o $(NAME2) $(LIB)
 
 clean:
 	rm -rf libft/*.o
@@ -57,5 +56,5 @@ byte:
 	xxd 42.cor > 1.hex
 byte2:
 	xxd 42 > 2.hex
-change: 
+change:
 	diff 1.hex 2.hex > change.diff
