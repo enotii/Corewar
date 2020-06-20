@@ -6,11 +6,11 @@
 /*   By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 21:43:14 by ilya              #+#    #+#             */
-/*   Updated: 2020/06/20 18:15:44 by ilya             ###   ########.fr       */
+/*   Updated: 2020/06/20 18:16:18 by ilya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "../includes/asm.h"
 
 char			*parse_bytecode(char *filename, int *size) //file to string
 {
@@ -151,5 +151,5 @@ int main(int argc, char **argv)
 	int		fd = open("new_file.s", O_CREAT);
 	disass(file, fd, size);
 	free(file);
-	return (0);
+	 return (0);
 }
