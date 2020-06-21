@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 14:44:25 by caking            #+#    #+#             */
-/*   Updated: 2020/05/01 18:35:39 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/21 17:17:42 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct					s_op
 	int							valid_arg_types[3];
 	int							op_code;
 	int							cycle_num;
-	char*						description;
+	char						*description;
 	int							arg_types_code;
 	int							t_dir_size;
 }								t_op;
