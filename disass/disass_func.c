@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/21 16:44:53 by caking            #+#    #+#             */
-/*   Updated: 2020/06/21 17:33:31 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 20:54:57 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char			*parse_bytecode(char *filename, int *size)
 
 	fd = open(filename, O_RDONLY);
 	content = NULL;
-	num = 0;
 	new_str = NULL;
 	if (fd <= 0)
 	{

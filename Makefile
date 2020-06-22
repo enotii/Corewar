@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ilya <ilya@student.42.fr>                  +#+  +:+       +#+         #
+#    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/06/20 18:32:38 by ilya             ###   ########.fr        #
+#    Updated: 2020/06/22 20:28:38 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIB = -I libft/ -L./libft -lft
 
 SRC1 = assembler/asm_main.c assembler/tokens.c assembler/tokens_func.c assembler/tokens_func2.c assembler/parse_tokens.c assembler/parse_to_byte.c assembler/parse_to_byte2.c assembler/transform_func.c assembler/handle_func.c
 
-SRC2 = disass/main.c
+SRC2 = disass/main.c disass/disass_func.c disass/disass_func2.c
 
 OBJ1 = $(SRC1:.c=.o)
 
@@ -33,7 +33,7 @@ $(NAME1): $(OBJ1)
 	gcc $(FLAGS) $(OBJ1) -o $(NAME1) $(LIB)
 
 $(NAME2): $(OBJ2)
-	gcc $(FLAGS) $(SRC2) -o $(NAME2) $(LIB)
+	gcc $(FLAGS) $(OBJ2) -o $(NAME2) $(LIB)
 
 clean:
 	rm -rf libft/*.o
@@ -50,7 +50,7 @@ norm:
 	norminette -R CheckForbiddenSourceHeader *
 
 debug:
-	gcc -ggdb $(SRC) $(LIB)
+	gcc -ggdb $(SRC2) $(LIB) 
 
 byte:
 	xxd 42.cor > 1.hex

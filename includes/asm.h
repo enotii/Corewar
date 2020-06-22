@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/06/21 17:13:53 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 21:19:26 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,12 @@ void				replace_labels_with_values(t_program *prog);
 t_program			tokens_to_commands(t_token_list *tokens);
 void				free_commands(t_command_list *list);
 int					open_file(char *filename);
+char				*parse_bytecode(char *filename, int *size);
+int					get_identifier(int op_code);
+int					check_endianess();
+int					get_type_by_command(int command);
+void				print_commands_to_file(t_command_list *list, int fd);
+void				disass(char *file, int fd, int size);
+t_command_list		*form_list(char *file, int size, int endianess);
+t_command_list		*next_disass_command(char *file, int *i, int endianess);
 #endif
