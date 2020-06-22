@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 19:59:50 by caking            #+#    #+#             */
-/*   Updated: 2020/06/18 20:21:59 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 21:22:54 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char			form_byte_args(t_command *command)
 	char		args[3] = {0, 0, 0};
 	int			count = 0;
 
-	while (count < op_tab[command->op_code - 1].args_num)
+	while (count < g_op_tab[command->op_code - 1].args_num)
 	{
 		if (command->types[count] == INDIRECT_LABEL || command->types[count] == INDIRECT)
 			args[count] = 3;

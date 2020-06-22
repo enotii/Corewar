@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 23:24:12 by ilya              #+#    #+#             */
-/*   Updated: 2020/06/17 23:45:09 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 21:22:54 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int						addcommand(t_token_list *ret, int j)
 {
 	ret->token.type = OPERATION;
-	ret->token.op_code = op_tab[j - 1].op_code;
+	ret->token.op_code = g_op_tab[j - 1].op_code;
 	ret->next = NULL;
 	return (0);
 }

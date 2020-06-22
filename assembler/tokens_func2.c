@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 23:14:18 by caking            #+#    #+#             */
-/*   Updated: 2020/06/17 23:46:57 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 21:22:54 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int						check_commands(char *substring)
 
 	i = -1;
 	while (++i < 17)
-		if (!ft_strcmp(op_tab[i].op_name, substring))
+		if (!ft_strcmp(g_op_tab[i].op_name, substring))
 			return (i + 1);
 	return (0);
 }

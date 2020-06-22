@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:13:27 by caking            #+#    #+#             */
-/*   Updated: 2020/06/18 20:22:40 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/22 21:22:54 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			prepare_header(char * body,int endianess, t_program program)
 void			traverse_args(t_command_list *list, char *body, int *mem_count, int endianess)
 {
 	int		count = 0;
-	while (count < op_tab[list->command.op_code - 1].args_num)
+	while (count < g_op_tab[list->command.op_code - 1].args_num)
 	{
 		if (list->command.types[count] == REGISTER)
 		{
@@ -49,11 +49,11 @@ void			traverse_args(t_command_list *list, char *body, int *mem_count, int endia
 		}
 		else if (list->command.types[count] == DIRECT || list->command.types[count] == DIRECT_LABEL)
 		{
-			if (op_tab[list->command.op_code -1].t_dir_size)
+			if (g_op_tab[list->command.op_code -1].t_dir_size)
 				*(int16_t*)(&body[*mem_count]) = transform_int_16((int16_t)list->command.values[count], endianess);
 			else
 				*(int32_t*)(&body[*mem_count]) = transform_int_32((int32_t)list->command.values[count], endianess);
-			*mem_count += op_tab[list->command.op_code -1].t_dir_size ? 2 : 4;
+			*mem_count += g_op_tab[list->command.op_code -1].t_dir_size ? 2 : 4;
 		}
 		count++;
 	}
@@ -70,7 +70,7 @@ void			norm_to_bytecode(t_program program, char *body, int *mem_count, int  endi
 		{
 			body[*mem_count] = (char)list->command.op_code;
 			(*mem_count)++;
-			if (op_tab[list->command.op_code - 1].arg_types_code)
+			if (g_op_tab[list->command.op_code - 1].arg_types_code)
 			{
 				body[*mem_count] = form_byte_args(&list->command);
 				(*mem_count)++;
