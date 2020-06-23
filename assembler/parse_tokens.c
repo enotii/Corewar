@@ -6,32 +6,20 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 23:12:00 by caking            #+#    #+#             */
-/*   Updated: 2020/06/17 23:50:20 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/23 22:23:59 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
 
-int					addstring(t_token_list *ret, char *str, int *countstr)
+void				adddirectarg_norm(t_token_list *ret, char *str, int *i)
 {
-	int				end_string;
-
-	end_string = 0;
-	ret->token.type = STRING;
-	ret->next = NULL;
-	while (str[end_string + 1] && str[end_string + 1] != '"')
-	{
-		if (str[end_string] == '\n')
-			(*countstr)++;
-		end_string++;
-	}
-	if (str[end_string])
-	{
-		ret->token.string = ft_strsub(str, 1, end_string);
-		return (end_string + 2);
-	}
-	else
-		return (-1);
+	ret->token.direct = ft_atoi(&str[*i]);
+	if (str[*i] == '-')
+		(*i)++;
+	while (str[*i] >= '0' && str[*i] <= '9')
+		(*i)++;
+	ret->token.type = DIRECT;
 }
 
 int					adddirectarg(t_token_list *ret, char *str, int *i)
@@ -56,14 +44,7 @@ int					adddirectarg(t_token_list *ret, char *str, int *i)
 		*i += j;
 	}
 	else
-	{
-		ret->token.direct = ft_atoi(&str[*i]);
-		if (str[*i] == '-')
-			(*i)++;
-		while (str[*i] >= '0' && str[*i] <= '9')
-			(*i)++;
-		ret->token.type = DIRECT;
-	}
+		adddirectarg_norm(ret, str, i);
 	ret->next = NULL;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 19:59:50 by caking            #+#    #+#             */
-/*   Updated: 2020/06/22 21:45:44 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/23 22:17:32 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			free_commands(t_command_list *list)
 
 char			form_byte_args(t_command *command)
 {
-	char		args[3] = {0, 0, 0};
+	char		args[3];
 	int			count;
 
 	count = 0;

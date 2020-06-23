@@ -6,31 +6,11 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:42:45 by caking            #+#    #+#             */
-/*   Updated: 2020/06/18 20:33:22 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/23 20:46:43 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
-
-void			free_tokens(t_token_list *tokens)
-{
-	t_token_list *next;
-
-	while (tokens)
-	{
-		next = tokens->next;
-		if (tokens->token.type == STRING)
-			free(tokens->token.string);
-		else if (tokens->token.type == LABEL)
-			free(tokens->token.label);
-		else if (tokens->token.type == INDIRECT_LABEL)
-			free(tokens->token.indirect_label);
-		else if (tokens->token.type == DIRECT_LABEL)
-			free(tokens->token.direct_label);
-		free(tokens);
-		tokens = next;
-	}
-}
 
 void			free_labels(t_label_list *labels)
 {
@@ -45,28 +25,20 @@ void			free_labels(t_label_list *labels)
 	}
 }
 
-t_program		tokens_to_commands(t_token_list *tokens)
+void			token_copy(t_token_list *tokens_copy, t_program *result)
 {
-	t_program		result;
-	t_token_list	*tokens_copy;
 	t_command_list	*last;
 	t_label_list	*last_label;
 	t_command_list	*next;
 
-	tokens_copy = tokens;
-	result.list = NULL;
-	result.labels = NULL;
-	result.header.prog_size = 0;
-	handle_name(&tokens_copy, &result);
-	handle_comment(&tokens_copy, &result);
 	last = NULL;
 	last_label = NULL;
 	while (tokens_copy)
 	{
-		next = get_next_command(&tokens_copy, &result, &last_label);
-		if (result.list == NULL)
+		next = get_next_command(&tokens_copy, result, &last_label);
+		if (result->list == NULL)
 		{
-			result.list = next;
+			result->list = next;
 			last = next;
 		}
 		else
@@ -75,6 +47,20 @@ t_program		tokens_to_commands(t_token_list *tokens)
 			last = next;
 		}
 	}
+}
+
+t_program		tokens_to_commands(t_token_list *tokens)
+{
+	t_program		result;
+	t_token_list	*tokens_copy;
+
+	tokens_copy = tokens;
+	result.list = NULL;
+	result.labels = NULL;
+	result.header.prog_size = 0;
+	handle_name(&tokens_copy, &result);
+	handle_comment(&tokens_copy, &result);
+	token_copy(tokens_copy, &result);
 	replace_labels_with_values(&result);
 	result.header.prog_size += 16 + PROG_NAME_LENGTH + COMMENT_LENGTH;
 	free_tokens(tokens);
@@ -92,8 +78,6 @@ char			*parse_file(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	content = NULL;
-	num = 0;
-	new_str = NULL;
 	if (fd <= 0)
 	{
 		ft_putstr("File does not exist");

@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 20:22:30 by caking            #+#    #+#             */
-/*   Updated: 2020/06/22 21:51:53 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/23 20:42:06 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,24 @@ void			handle_comment(t_token_list **tokens, t_program *program)
 	ft_strncpy(program->header.comment,
 	(*tokens)->next->token.string, COMMENT_LENGTH);
 	*tokens = (*tokens)->next->next;
+}
+
+void			free_tokens(t_token_list *tokens)
+{
+	t_token_list *next;
+
+	while (tokens)
+	{
+		next = tokens->next;
+		if (tokens->token.type == STRING)
+			free(tokens->token.string);
+		else if (tokens->token.type == LABEL)
+			free(tokens->token.label);
+		else if (tokens->token.type == INDIRECT_LABEL)
+			free(tokens->token.indirect_label);
+		else if (tokens->token.type == DIRECT_LABEL)
+			free(tokens->token.direct_label);
+		free(tokens);
+		tokens = next;
+	}
 }

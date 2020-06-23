@@ -6,7 +6,7 @@
 /*   By: caking <caking@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/12 15:56:15 by caking            #+#    #+#             */
-/*   Updated: 2020/06/22 21:19:26 by caking           ###   ########.fr       */
+/*   Updated: 2020/06/23 22:36:25 by caking           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ void				manage_args(t_token_list **list, t_command_list *result,\
 t_program *prog);
 t_command_list		*get_next_command(t_token_list **list, t_program *prog,\
 t_label_list **last_label);
-void				replace_one_label_by_value(t_command *command, int count,\
-t_label_list *list, int bytes, int args_bytes);
+void				rpl_one(t_command *command, int count,\
+t_label_list *list, int bytes);
 void				replace_labels_with_values(t_program *prog);
 t_program			tokens_to_commands(t_token_list *tokens);
 void				free_commands(t_command_list *list);
@@ -141,4 +141,7 @@ void				print_commands_to_file(t_command_list *list, int fd);
 void				disass(char *file, int fd, int size);
 t_command_list		*form_list(char *file, int size, int endianess);
 t_command_list		*next_disass_command(char *file, int *i, int endianess);
+void				free_tokens(t_token_list *tokens);
+void				prepare_header(char *body, int endianess,
+t_program program);
 #endif

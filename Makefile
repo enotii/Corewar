@@ -6,7 +6,7 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/06/22 20:28:38 by caking           ###   ########.fr        #
+#    Updated: 2020/06/23 22:24:36 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,10 @@ NAME2 = dasm
 
 LIB = -I libft/ -L./libft -lft
 
-SRC1 = assembler/asm_main.c assembler/tokens.c assembler/tokens_func.c assembler/tokens_func2.c assembler/parse_tokens.c assembler/parse_to_byte.c assembler/parse_to_byte2.c assembler/transform_func.c assembler/handle_func.c
+SRC1 = assembler/asm_main.c assembler/tokens.c assembler/tokens_func.c\
+ assembler/tokens_func2.c assembler/parse_tokens.c assembler/parse_to_byte.c\
+  assembler/parse_to_byte2.c assembler/transform_func.c assembler/handle_func.c\
+   assembler/parse_to_byte3.c assembler/parse_tokens2.c
 
 SRC2 = disass/main.c disass/disass_func.c disass/disass_func2.c
 
