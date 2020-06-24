@@ -35,9 +35,9 @@
 
 t_carriage				*ft_fork(t_cw *cw, t_carriage *tmp, int l)
 {
-	t_carriage			*new;
-	short			t_ind;
-	int				k;
+	t_carriage	*new;
+	short		t_ind;
+	int			k;
 
 	new = new_curr(tmp->id_par, cw);
 	new->carry = tmp->carry;

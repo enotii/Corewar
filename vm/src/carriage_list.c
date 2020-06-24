@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 16:40:59 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 11:46:54 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 17:39:30 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_carriage	*new_curr(int id_par, t_cw *cw)
 {
 	t_carriage	*new;
-	int		i;
+	int			i;
 
 	new = NULL;
 	new = (t_carriage *)ft_memalloc(sizeof(t_carriage));
@@ -34,7 +34,7 @@ t_carriage	*new_curr(int id_par, t_cw *cw)
 	return (new);
 }
 
-void	add_curr(t_carriage **all_carr, t_carriage *new)
+void		add_curr(t_carriage **all_carr, t_carriage *new)
 {
 	if (!all_carr || !*all_carr)
 		return ;
@@ -42,7 +42,7 @@ void	add_curr(t_carriage **all_carr, t_carriage *new)
 	*all_carr = new;
 }
 
-int		len_curr(t_carriage *list)
+int			len_curr(t_carriage *list)
 {
 	int i;
 

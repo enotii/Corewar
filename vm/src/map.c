@@ -40,7 +40,7 @@ t_carriage	*carr_list(t_cw *cw)
 	return (carr);
 }
 
-void	memset_colormap(t_cw *cw, int i)
+void		memset_colormap(t_cw *cw, int i)
 {
 	unsigned int		k;
 
@@ -52,7 +52,7 @@ void	memset_colormap(t_cw *cw, int i)
 	}
 }
 
-void	map(t_cw *cw)
+void		map(t_cw *cw)
 {
 	int				i;
 	unsigned char	*code_i;

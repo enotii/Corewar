@@ -117,4 +117,3 @@ unsigned char		*inttobyte(int a, t_cw *cw)
 	bt[3] = (unsigned char)((a >> 0) & 0xff);
 	return (bt);
 }
-

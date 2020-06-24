@@ -14,7 +14,7 @@
 
 void				free_cw(t_cw *cw)
 {
-	int		i;
+	int			i;
 	t_carriage	*carr;
 
 	i = 0;

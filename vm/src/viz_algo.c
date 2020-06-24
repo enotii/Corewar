@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 11:17:04 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 11:38:18 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 17:35:13 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ WINDOW	*create_newwin(int height, int width, int starty, int startx)
 
 int		players(WINDOW *side_win, int line, t_cw *cw)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_carriage	*tmp;
 
 	i = -1;
@@ -76,7 +76,7 @@ void	side_panel(WINDOW *side_win, t_cw *cw)
 
 void	paint_carg(t_cw *cw)
 {
-	t_carriage		*carg;
+	t_carriage	*carg;
 	int			color;
 
 	carg = cw->carr;

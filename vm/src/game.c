@@ -90,7 +90,7 @@ static t_carriage	*check_live(t_cw *cw)
 	return (cw->carr);
 }
 
-static void		cycles_read(t_cw *cw, t_carriage *tmp)
+static void			cycles_read(t_cw *cw, t_carriage *tmp)
 {
 	if (tmp->cycles_to == 0)
 	{
@@ -101,7 +101,7 @@ static void		cycles_read(t_cw *cw, t_carriage *tmp)
 	}
 }
 
-static	void	start_game_2(t_cw *cw, t_carriage *tmp)
+static	void		start_game_2(t_cw *cw, t_carriage *tmp)
 {
 	if (cw->carr && (cw->live.cyc == cw->nbr_cyc || cw->nbr_cyc == 0))
 		print_dump_code(cw);
@@ -129,7 +129,7 @@ static	void	start_game_2(t_cw *cw, t_carriage *tmp)
 		tmp = check_live(cw);
 }
 
-void			start_game(t_cw *cw)
+void				start_game(t_cw *cw)
 {
 	while (cw->carr)
 		start_game_2(cw, NULL);
