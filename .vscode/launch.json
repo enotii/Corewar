@@ -9,7 +9,7 @@
     "type": "cppdbg",
     "request": "launch",
     "program": "${workspaceFolder}/a.out",
-    "args": ["barriere.s"],
+    "args": ["jumper.cor"],
     "stopAtEntry": true,
     "cwd": "${workspaceFolder}",
     "environment": [],

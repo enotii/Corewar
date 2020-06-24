@@ -6,34 +6,45 @@
 #    By: caking <caking@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/12 15:29:32 by caking            #+#    #+#              #
-#    Updated: 2020/05/01 18:18:06 by caking           ###   ########.fr        #
+#    Updated: 2020/06/23 22:24:36 by caking           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
+NAME1 = asm
+
+NAME2 = dasm
 
 LIB = -I libft/ -L./libft -lft
 
-SRC = assembler/asm_main.c assembler/tokens.c
+SRC1 = assembler/asm_main.c assembler/tokens.c assembler/tokens_func.c\
+ assembler/tokens_func2.c assembler/parse_tokens.c assembler/parse_to_byte.c\
+  assembler/parse_to_byte2.c assembler/transform_func.c assembler/handle_func.c\
+   assembler/parse_to_byte3.c assembler/parse_tokens2.c
 
-OBJ = $(SRC:.c=.o)
+SRC2 = disass/main.c disass/disass_func.c disass/disass_func2.c
 
-HEADER = -I asm.h
+OBJ1 = $(SRC1:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+OBJ2 = $(SRC2:.c=.o)
 
-all: $(NAME)
+FLAGS = -Wall -Wextra -Werror -ggdb
 
-$(NAME): $(OBJ)
+all: $(NAME1) $(NAME2)
+
+$(NAME1): $(OBJ1)
 	make -C libft/
-	gcc $(FLAGS) $(OBJ) -o $(NAME) $(LIB)
+	gcc $(FLAGS) $(OBJ1) -o $(NAME1) $(LIB)
+
+$(NAME2): $(OBJ2)
+	gcc $(FLAGS) $(OBJ2) -o $(NAME2) $(LIB)
 
 clean:
 	rm -rf libft/*.o
 	rm -rf assembler/*.o
+	rm -rf disass/*.o
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME1) $(NAME2)
 	rm -rf libft/libft.a
 
 re: fclean all
@@ -42,11 +53,11 @@ norm:
 	norminette -R CheckForbiddenSourceHeader *
 
 debug:
-	gcc -ggdb $(SRC) $(LIB)
+	gcc -ggdb $(SRC2) $(LIB) 
 
 byte:
 	xxd 42.cor > 1.hex
 byte2:
 	xxd 42 > 2.hex
-change: 
+change:
 	diff 1.hex 2.hex > change.diff
