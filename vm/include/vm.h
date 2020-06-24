@@ -6,194 +6,30 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/11 03:27:18 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/19 00:48:45 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:41:40 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VM_H
 # define VM_H
 
-# include "op.h"
 # include "ft_printf.h"
 # include <ncurses.h>
+# include "op.h"
 
-# define RUNNING 			713
-# define CYCLE_PER_SEC		1225
-# define CYCLE_COORD		1993
-# define PROCESSES			2505
-# define PL_ONE_LIVE		3529
+# define DELAY 14000
 # define M MEM_SIZE
 
-# define LIVE_CODE	0x01
-# define LD_CODE 	0x02
-# define ST_CODE	0x03
-# define ADD_CODE	0x04
-# define SUB_CODE	0x05
-# define AND_CODE	0x06
-# define OR_CODE	0x07
-# define XOR_CODE	0x08
-# define ZJMP_CODE	0x09
-# define LDI_CODE	0x0a
-# define STI_CODE	0x0b
-# define FORK_CODE	0x0c
-# define LLD_CODE	0x0d
-# define LLDI_CODE	0x0e
-# define LFORK_CODE	0x0f
-# define AFF_CODE	0x10
+typedef struct			s_viz
+{
+	int					vis;
+	int					delay;
+	WINDOW				*main_win;
+	WINDOW				*side_win;
+	int					pause;
+}						t_viz;
 
-# define LIVE_CYCLE_CD	10
-# define LD_CYCLE_CD	5
-# define ST_CYCLE_CD	5
-# define ADD_CYCLE_CD	10
-# define SUB_CYCLE_CD	10
-# define AND_CYCLE_CD	6
-# define OR_CYCLE_CD	6
-# define XOR_CYCLE_CD	6
-# define ZJMP_CYCLE_CD	20
-# define LDI_CYCLE_CD	25
-# define STI_CYCLE_CD	25
-# define FORK_CYCLE_CD	800
-# define LLD_CYCLE_CD	10
-# define LLDI_CYCLE_CD	50
-# define LFORK_CYCLE_CD	1000
-# define AFF_CYCLE_CD	2
-
-/*
-**static t_op			g_op_tab[16] = {
-**	{
-**			.name = "live",
-**			.code = 0x01,
-**			.args_num = 1,
-**			.args_types_code = 0,
-**			.args_types = {T_DIR, 0, 0},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "ld",
-**			.code = 0x02,
-**			.args_num = 2,
-**			.args_types_code = 1,
-**			.args_types = {T_DIR | T_IND, T_REG, 0},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "st",
-**			.code = 0x03,
-**			.args_num = 2,
-**			.args_types_code = 1,
-**			.args_types = {T_REG, T_REG | T_IND, 0},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "add",
-**			.code = 0x04,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG, T_REG, T_REG},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "sub",
-**			.code = 0x05,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG, T_REG, T_REG},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.code = 0x06,
-**			.name = "and",
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "or",
-**			.code = 0x07,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "xor",
-**			.code = 0x08,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "zjmp",
-**			.code = 0x09,
-**			.args_num = 1,
-**			.args_types_code = 0,
-**			.args_types = {T_DIR, 0, 0},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "ldi",
-**			.code = 0x0A,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "sti",
-**			.code = 0x0B,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG, T_REG | T_DIR | T_IND, T_REG | T_DIR},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "fork",
-**			.code = 0x0C,
-**			.args_num = 1,
-**			.args_types_code = 0,
-**			.args_types = {T_DIR, 0, 0},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "lld",
-**			.code = 0x0D,
-**			.args_num = 2,
-**			.args_types_code = 1,
-**			.args_types = {T_DIR | T_IND, T_REG, 0},
-**			.t_dir_size = 4,
-**	},
-**	{
-**			.name = "lldi",
-**			.code = 0x0E,
-**			.args_num = 3,
-**			.args_types_code = 1,
-**			.args_types = {T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "lfork",
-**			.code = 0x0F,
-**			.args_num = 1,
-**			.args_types_code = 0,
-**			.args_types = {T_DIR, 0, 0},
-**			.t_dir_size = 2,
-**	},
-**	{
-**			.name = "aff",
-**			.code = 0x10,
-**			.args_num = 1,
-**			.args_types_code = 1,
-**			.args_types = {T_REG, 0, 0},
-**			.t_dir_size = 4,
-**	}
-**};
-*/
-
-
-
-typedef	struct			s_player
+typedef struct			s_player
 {
 	unsigned int		id;
 	char				prog_name[PROG_NAME_LENGTH + 1];
@@ -204,25 +40,7 @@ typedef	struct			s_player
 	char				*file_name;
 }						t_player;
 
-/*
-** каретка:
-** Название регистра (r1, r2...) в байт-коде занимает 1 байт.
-** Но сам регистр вмещает в себя 4 байта, как указано в константе REG_SIZE.
-** num - уникальный номер каретки !!! ЗАЧЕМ?
-** cur - текущее положение
-** cycles_live - цикл когда проводилась оп live
-** carry - Carry - нужен в функции zjmp, который исполняется в том случае, что
-** у каретки->carry = 1.
-** id_par - родитель
-** reg
-** live -  1 или 0 жива или нет
-** prog - команду которую он исполняет
-** cycles_to - количество циклов, сколько ему осталось ждать
-** до исполнения команды.
-** i - перемещение каретки на шаге (длина предыдущего хода)
-*/
-
-typedef	struct			s_carriage
+typedef struct			s_carriage
 {
 	int					num;
 	int					cur;
@@ -236,22 +54,6 @@ typedef	struct			s_carriage
 	struct s_carriage	*next;
 }						t_carriage;
 
-/*
-** все о текущем положении и live:
-** id_live - игрок, о котором в последний раз сказали, что он жив (ПОБЕДИТЕЛЬ)
-** ИНФОРМАЦИЮ О НЁМ МЫ ПОЛУЧАЕМ ТОЛЬКО В оп_LIVE ????
-** cyc - количество прошедших с начала игры циклов
-** live_count - количество выполненных операций live за последний период,
-** длинной в cyc_to_die
-** обнуляется каждую проверку?
-** cyc_to_die - длительность периода до проверки
-** изменяется в 2ух случаях
-** check_count - количество проведенных проверок
-** - обнуляется, если меняется cyc to die
-** cycle_new - кол -во циклов после обнуления
-** counter - считает проверки без изменения to_die
-*/
-
 typedef struct			s_live
 {
 	int					id_live;
@@ -262,98 +64,155 @@ typedef struct			s_live
 	int					counter;
 }						t_live;
 
-/*
-** Общая структура для игры
-** n - общее кол - во игроков
-** n_curr - число кареток в настоящий момент
-** nbr_cyc - если есть dump
-** f - набор флажков для заполнения с флагом -n
-** m_ch - основной хранитель чемпионов
-** (хранит ссылки на m_2)
-** m_2 - туда пишем чемпионов, в очередности поступления(без флагов)
-** code - все игровое поле
-** carr - список всех кареток
-** live
-** нет общего числа кареток больше
-*/
-
-typedef	struct			s_cw
+typedef struct			s_cw
 {
 	int					n;
 	int					n_curr;
 	int					nbr_cyc;
 	int					v_print[4];
 	int					f[MAX_PLAYERS];
+	t_player			m_ch[MAX_PLAYERS];
+	t_player			m_2[MAX_PLAYERS];
 	unsigned char		code[MEM_SIZE];
 	unsigned char		colormap[MEM_SIZE];
 	unsigned char		bold[MEM_SIZE];
+	t_viz				visual;
+	struct s_carriage	*carr;
+	struct s_live		live;
 	int					addr1;
 	int					addr2;
 	int					aff;
-	t_carriage			*carr;
-	t_player			ch[MAX_PLAYERS];
-	t_player			ch_tmp[MAX_PLAYERS];
-	t_live				live;
 }						t_cw;
 
-typedef struct		s_header
-{
-	unsigned int	magic;
-	char			prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int	prog_size;
-	char			comment[COMMENT_LENGTH + 1];
-}					t_header_s;
-
-void	parser(int ac, char **av, t_cw *cor);
-void	exit_print(char *str);
-void	make_player_n(char **av, int n, t_cw *cor);
-void	valid_player(int i, char **av, t_player *player);
-void	write_header(int fd, char *file_name, t_player *player);
-void	map(t_cw *cor);
-unsigned char		*ft_strncpy_all(unsigned char *dest,
-									const unsigned char *source, size_t n);
-t_carriage	*new_curr(int id_par, t_cw *cor);
-void	print_dump_code(t_cw *cor);
-void	print_adv(t_cw *cor, t_carriage *tmp);
-void	do_op(t_cw *cor, t_carriage *tmp);
-void	go_cor(t_cw *cor);
-t_carriage	*remove_head(t_cw *cor, t_carriage *curr);
-t_carriage	*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cor);
-void	add_curr(t_carriage **all_carr, t_carriage *new);
-unsigned char	read_byte_1(unsigned char *src, int i);
-short			read_byte_2(unsigned char *src, int i);
-unsigned int	read_byte_2_int(unsigned char *src, int i);
-unsigned int	read_byte_4(unsigned char *src, int i);
-unsigned int	read_byte_4_c(unsigned char *src, int i);
-int			to_int(unsigned char *c);
-int			val_reg(unsigned char reg);
-short				idx_mod(short t_ind);
-int					mem_size(int cur);
-char				*base16_2_cor(t_cw *cor, t_carriage *tmp);
-int					arg_4(char *b2, t_carriage *tmp, t_cw *cor, int *f_err);
-int					arg_2(char *b2, t_carriage *tmp, t_cw *cor, int *f_err);
-unsigned char		*inttobyte(int a);
-void	copy_p(void *dst, const void *src, int d_s, int s_s);
-int		ft_cycles_to(char p);
-void				free_cor(t_cw *cor);
-
 /*
-**	COMMANDS
+ ****** parser ******
 */
 
-void			ft_add(t_cw *cor, t_carriage *tmp);
-void	ft_aff(t_cw *cor, t_carriage *tmp);
-void	ft_and(t_cw *cor, t_carriage *tmp);
-t_carriage				*ft_fork(t_cw *cor, t_carriage *tmp, int l);
-void	ft_ld(t_cw *cor, t_carriage *tmp, int l);
-void	ft_lld(t_cw *cor, t_carriage *tmp);
-void			ft_ldi(t_cw *cor, t_carriage *tmp);
-void	ft_live(t_cw *cor, t_carriage *tmp);
-void	ft_xor(t_cw *cor, t_carriage *tmp);
-void	ft_or(t_cw *cor, t_carriage *tmp);
-void	ft_st(t_cw *cor, t_carriage *tmp);
-void			ft_sti(t_cw *cor, t_carriage *tmp);
-void		ft_sub(t_cw *cor, t_carriage *tmp);
-void				ft_zjmp(t_cw *cor, t_carriage *tmp);
+void					*parser(int ac, char **av, t_cw *cw);
+
+/*
+ * ***** champ ******
+*/
+
+void					write_name(int fd, char *file_name,
+							t_player *champ, t_cw *cw);
+void					valid_champ(int i, char **av, t_player *champ, t_cw *cw);
+void					make_champ_n(char **av, int n, t_cw *cw);
+
+/*
+ * ****** map ******
+*/
+
+void					map(t_cw *cw);
+
+/*
+ * ***** start_game ******
+*/
+
+void					start_game(t_cw *cw);
+
+/*
+ * ***** carr_list ******
+*/
+
+t_carriage				*new_curr(int id_par, t_cw *cw);
+void					add_curr(t_carriage **all_carr, t_carriage *new);
+int						len_curr(t_carriage *list);
+t_carriage				*remove_head(t_cw *cw, t_carriage *curr);
+t_carriage				*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cw);
+t_carriage				*carr_list(t_cw *cw);
+
+/*
+ * ***** do_op ******
+*/
+
+int						ft_cycles_to(char p);
+void					do_op(t_cw *cw, t_carriage	*tmp);
+
+/*
+ * ***** print_code ******
+*/
+
+void					print_dump_code(t_cw *cw);
+void					exit_print(t_cw *cw, char *str);
+void					print_adv(t_cw *cw, t_carriage *tmp);
+void					take_flag_v(t_cw *cw, int num, int *i);
+/*
+** ***** read_byte ******
+** inttobyte - переводит инт в байт
+** base16_2_cw - из одного байта делает 8 бит
+*/
+
+unsigned char			read_byte_1 (unsigned char *src, int i);
+short					read_byte_2 (unsigned char *src, int i);
+unsigned int			read_byte_2_int (unsigned char *src, int i);
+unsigned int			read_byte_4 (unsigned char *src, int i);
+unsigned int			read_byte_4_c (unsigned char *src, int i);
+unsigned char			*inttobyte(int a, t_cw *cw);
+char					*base16_2_cw(t_cw *cw, t_carriage *tmp);
+
+/*
+** ***** ft_liba ******
+*/
+
+void					free_cw(t_cw *cw);
+unsigned char			*ft_strncpy_all(unsigned char *dest,
+			const unsigned char *source, size_t n);
+int						mem_size(int cur);
+short					idx_mod(short t_ind);
+unsigned char			*ft_strnew_uc(size_t size);
+int						val_reg(unsigned char reg);
+int						to_int(unsigned char *c);
+int						mem(int x);
+/*
+** ***** ft_add ******
+** arg_4 - считает откуда считывать 4 байта, если возможные аргументы t_reg,
+** t_dir(4 байта) или t_ind
+** arg_2 - считает откуда считывать 4 байта  t_dir(2 байта) или t_ind
+*/
+
+void					ft_add(t_cw *cw, t_carriage *tmp);
+void					ft_zjmp(t_cw *cw, t_carriage *tmp);
+int						arg_4(char *b2, t_carriage *tmp, t_cw *cw, int *f_err);
+int						arg_2(char *b2, t_carriage *tmp, t_cw *cw, int *f_err);
+
+/*
+** все операции, что с флагом l - реализованы с переменной l
+** про операции в файлах с функциями
+*/
+
+void					ft_live(t_cw *cw, t_carriage *tmp);
+void					ft_ld(t_cw *cw, t_carriage *tmp, int l);
+void					ft_st(t_cw *cw, t_carriage *tmp);
+void					ft_sub(t_cw *cw, t_carriage *tmp);
+void					ft_and(t_cw *cw, t_carriage *tmp);
+void					ft_or(t_cw *cw, t_carriage *tmp);
+void					ft_xor(t_cw *cw, t_carriage *tmp);
+void					ft_ldi(t_cw *cw, t_carriage *tmp);
+void					ft_sti(t_cw *cw, t_carriage *tmp);
+t_carriage				*ft_fork(t_cw *cw, t_carriage *tmp, int l);
+void					ft_lld(t_cw *cw, t_carriage *tmp);
+void					ft_aff(t_cw *cw, t_carriage *tmp);
+void					copy_p(void *dst, const void *src, int d_s, int s_s);
+void					set_aff(t_cw *cw, int *i);
+
+/*
+** visu
+*/
+
+void					init_window(t_cw *cw);
+void					create_field(t_cw *cw);
+void					draw(t_cw *cw);
+WINDOW					*create_newwin(int height, int width, int sty, int stx);
+void					side_panel(WINDOW *side_win, t_cw *cw);
+int						players(WINDOW *side_win, int line, t_cw *cw);
+void					main_panel(WINDOW *main_win, t_cw *tool);
+void					paint_carg(t_cw *cw);
+void					visual(t_cw *cw);
+int						graph_cycle(t_cw *cw);
+void					write_map_color(t_cw *cw, int pos, int len, t_carriage *carg);
+void					end_game(t_cw *cw);
+void					stop_visual(t_cw *cw);
+void					panel_help(t_cw *cw, WINDOW *main_win, int i, int line);
 
 #endif

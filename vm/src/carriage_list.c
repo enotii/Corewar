@@ -6,16 +6,16 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 16:40:59 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/18 22:25:04 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:46:54 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-t_carriage *new_curr(int id_par, t_cw *cor)
+t_carriage	*new_curr(int id_par, t_cw *cw)
 {
-	t_carriage  *new;
-	int         i;
+	t_carriage	*new;
+	int		i;
 
 	new = NULL;
 	new = (t_carriage *)ft_memalloc(sizeof(t_carriage));
@@ -25,7 +25,7 @@ t_carriage *new_curr(int id_par, t_cw *cor)
 	new->i = 0;
 	new->carry = 0;
 	new->cycles_to = 0;
-	new->num = ++cor->n_curr;
+	new->num = ++cw->n_curr;
 	i = 0;
 	new->reg[i] = -id_par;
 	while (++i < REG_NUMBER)
@@ -55,19 +55,19 @@ int		len_curr(t_carriage *list)
 	return (i);
 }
 
-t_carriage	*remove_head(t_cw *cor, t_carriage *curr)
+t_carriage	*remove_head(t_cw *cw, t_carriage *curr)
 {
-	cor->carr = curr->next;
-	if (cor->v_print[3] == 1)
+	cw->carr = curr->next;
+	if (cw->v_print[3] == 1)
 		ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
-				curr->num, cor->live.cyc - curr->cycles_live,
-				cor->live.cyc_to_die);
+				curr->num, cw->live.cyc - curr->cycles_live,
+				cw->live.cyc_to_die);
 	free(curr);
-	curr = cor->carr;
+	curr = cw->carr;
 	return (curr);
 }
 
-t_carriage	*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cor)
+t_carriage	*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cw)
 {
 	int		temp_id;
 	int		temp_cycles_live;
@@ -77,8 +77,8 @@ t_carriage	*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cor)
 	curr = curr->next;
 	free((*prev)->next);
 	(*prev)->next = curr;
-	if (cor->v_print[3] == 1)
+	if (cw->v_print[3] == 1)
 		ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp_id,
-				cor->live.cyc - temp_cycles_live, cor->live.cyc_to_die);
+				cw->live.cyc - temp_cycles_live, cw->live.cyc_to_die);
 	return (curr);
 }

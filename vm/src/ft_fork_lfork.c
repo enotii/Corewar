@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 13:53:36 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/19 00:09:09 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:38:18 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 ** lfork не усекает по IDX_MOD
 */
 /*
-** void	printList(t_carr *tmp)
+** void	printList(t_carriage *tmp)
 ** {
-** 	t_carr	*car;
+** 	t_carriage	*car;
 **
 ** 	car = tmp;
 ** 	while(car)
@@ -33,28 +33,28 @@
 ** }
 */
 
-t_carriage				*ft_fork(t_cw *cor, t_carriage *tmp, int l)
+t_carriage				*ft_fork(t_cw *cw, t_carriage *tmp, int l)
 {
 	t_carriage			*new;
 	short			t_ind;
 	int				k;
 
-	new = new_curr(tmp->num, cor);
+	new = new_curr(tmp->id_par, cw);
 	new->carry = tmp->carry;
 	new->cycles_live = tmp->cycles_live;
 	k = -1;
 	while (++k < REG_NUMBER)
 		new->reg[k] = tmp->reg[k];
-	t_ind = read_byte_2(cor->code, tmp->cur + 1);
+	t_ind = read_byte_2(cw->code, tmp->cur + 1);
 	if (l == 0)
 		new->cur = tmp->cur + idx_mod(t_ind);
 	else
 		new->cur = tmp->cur + t_ind;
 	new->cur = mem_size(new->cur);
-	add_curr(&(cor->carr), new);
+	add_curr(&(cw->carr), new);
 	tmp->i = 3;
-	if (cor->v_print[2] == 1)
+	if (cw->v_print[2] == 1)
 		ft_printf("P %4d |%sfork %d (%d)\n", tmp->num, (l) ? " l" : " ",
-			t_ind, tmp->cur + t_ind % IDX_MOD);
-	return (cor->carr);
+				t_ind, tmp->cur + t_ind % IDX_MOD);
+	return (cw->carr);
 }

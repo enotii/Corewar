@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/13 14:17:39 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/19 00:18:56 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:38:18 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,50 +58,50 @@ void	copy_p(void *dst, const void *src, int d_s, int s_s)
 ** аргумента, в память по полученному адресу.
 */
 
-void	ft_st_write_2(unsigned char t_reg, t_cw *cor, t_carriage *tmp)
+void	ft_st_write_2(unsigned char t_reg, t_cw *cw, t_carriage *tmp)
 {
 	unsigned char	t_reg_2;
 
-	t_reg_2 = read_byte_1(cor->code, tmp->cur + 3);
+	t_reg_2 = read_byte_1(cw->code, tmp->cur + 3);
 	if (val_reg(t_reg_2))
 		tmp->reg[t_reg_2 - 1] = tmp->reg[t_reg - 1];
-	if (cor->v_print[2] == 1)
+	if (cw->v_print[2] == 1)
 		ft_printf("P %4d | st r%d %d\n", tmp->num,
-					t_reg, t_reg_2 % IDX_MOD);
+				t_reg, t_reg_2 % IDX_MOD);
 }
 
-void	ft_st_write(t_cw *cor, t_carriage *tmp, int b2_2)
+void	ft_st_write(t_cw *cw, t_carriage *tmp, int b2_2)
 {
 	unsigned char	*p;
 	short			t_ind;
 	unsigned char	t_reg;
 
-	t_reg = read_byte_1(cor->code, tmp->cur + 2);
+	t_reg = read_byte_1(cw->code, tmp->cur + 2);
 	if (val_reg(t_reg))
 	{
 		if (b2_2 == 1)
 		{
-			t_ind = read_byte_2(cor->code, tmp->cur + 3);
-			if (cor->v_print[2] == 1)
+			t_ind = read_byte_2(cw->code, tmp->cur + 3);
+			if (cw->v_print[2] == 1)
 				ft_printf("P %4d | st r%d %d\n", tmp->num, t_reg, t_ind);
 			t_ind = idx_mod(t_ind);
 			t_ind = mem_size(tmp->cur + t_ind);
-			p = inttobyte(tmp->reg[t_reg - 1]);
-			copy_p(cor->code, p, t_ind, 0);
+			p = inttobyte(tmp->reg[t_reg - 1], cw);
+			copy_p(cw->code, p, t_ind, 0);
 			free(p);
 		}
 		else
-			ft_st_write_2(t_reg, cor, tmp);
+			ft_st_write_2(t_reg, cw, tmp);
 	}
 }
 
-void	ft_st(t_cw *cor, t_carriage *tmp)
+void	ft_st(t_cw *cw, t_carriage *tmp)
 {
 	char	*b2;
 	int		i;
 
 	i = 2;
-	b2 = base16_2_cor(cor, tmp);
+	b2 = base16_2_cw(cw, tmp);
 	if (b2[0] == 0 && b2[1] == 1)
 		i += 1;
 	else if ((b2[0] == 1 && b2[1] == 0) || (b2[0] == 1 && b2[1] == 1))
@@ -109,7 +109,7 @@ void	ft_st(t_cw *cor, t_carriage *tmp)
 	if ((b2[2] == 0 && b2[3] == 1) || (b2[2] == 1 && b2[3] == 1))
 	{
 		if (i == 3)
-			ft_st_write(cor, tmp, b2[2]);
+			ft_st_write(cw, tmp, b2[2]);
 		i += (b2[2] == 0) ? 1 : 2;
 	}
 	else if (b2[2] == 1 && b2[3] == 0)

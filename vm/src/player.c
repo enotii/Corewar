@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/10 18:05:13 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/11 15:26:27 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:50:16 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,66 +16,79 @@
 ** запись бинарника и его валидация
 ** тут создается чемпион
 ** и место под его код
-** 4 б - COREWAR_EXEC_MAGIC
+** 4 б -COREWAR_EXEC_MAGIC
 ** PROG_NAME_LENGTH -
 ** 4 б - NULL;
 ** 4 б prog size
 */
 
-static void		write_code(int fd, char *file_name, t_player *player)
+unsigned char	*ft_strnew_uc(size_t size)
+{
+	unsigned char	*ptr;
+
+	ptr = NULL;
+	ptr = (unsigned char*)malloc(sizeof(unsigned char) * (size + 1));
+	if (ptr)
+		return ((unsigned char*)ft_memset(ptr, '\0', size + 1));
+	else
+		return (NULL);
+}
+
+static void		write_name_two(int fd, char *file_name, t_player *champ,
+						t_cw *cw)
 {
 	size_t			len_code;
 	unsigned char	c;
 
-	len_code = read(fd, (player->code), player->prog_size);
-	if (len_code != player->prog_size)
-		exit_print("Error: File has a code size that differ "
+	if (champ->prog_size == 0)
+		exit_print(cw, "no code\n");
+	len_code = read(fd, (champ->code), champ->prog_size);
+	if (len_code != champ->prog_size)
+		exit_print(cw, "Error: File has a code size that differ "
 			"from what its header says\n");
 	while (read(fd, &c, 1))
 		++len_code;
-	player->file_name = ft_strdup(file_name);
+	champ->file_name = ft_strdup(file_name);
 	if (len_code > CHAMP_MAX_SIZE)
 	{
-		ft_printf("Error: File %s has too large a code (%d bytes > %d bytes)\n",
-			player->file_name, len_code - 4, CHAMP_MAX_SIZE);
-		exit_print("Error: File has too large");
+		ft_printf("Error: File %s has too large a code (%d bytes > %d bytes)",
+			champ->file_name, len_code - 4, CHAMP_MAX_SIZE);
+		exit_print(cw, "\n");
 	}
-	if (len_code > player->prog_size)
-		exit_print("Error: File has a code size that differ from what its "
+	if (len_code > champ->prog_size)
+		exit_print(cw, "Error: File has a code size that differ from what its "
 	"header says\n");
 }
 
-void			write_header(int fd, char *file_name, t_player *player)
+void			write_name(int fd, char *file_name, t_player *champ, t_cw *cw)
 {
 	unsigned char	c[4];
 	size_t			st;
 
+	c[0] = 0;
+	c[1] = 0;
+	c[2] = 0;
+	c[3] = 0;
 	read(fd, &c, 4);
-	player->magic = ft_uc_to_int(c);
-	if (player->magic != COREWAR_EXEC_MAGIC)
-		exit_print("Error: wrong exec_magic\n");
-	read(fd, (player->prog_name), PROG_NAME_LENGTH);
+	champ->magic = to_int(c);
+	if (champ->magic != COREWAR_EXEC_MAGIC)
+		exit_print(cw, "Error: wrong exec_magic\n");
+	read(fd, (champ->prog_name), PROG_NAME_LENGTH);
 	if (read(fd, &c, 4) != 4 || c[0] || c[1] || c[2] || c[3])
-		exit_print("Error: wrong name/must be NULL between name and size\n");
-	if (read(fd, &c, 4) != 4 ||
-		(player->prog_size = ft_uc_to_int(c)) > CHAMP_MAX_SIZE)
-		exit_print("File has a code size that differ "
+		exit_print(cw, "Error: wrong name\n");
+	if (read(fd, &c, 4) != 4)
+		exit_print(cw, "File has a code size that differ "
 	"from what its header says\n");
-	if ((st = read(fd, &(player->comment), COMMENT_LENGTH)) != COMMENT_LENGTH)
-		exit_print("error comment\n");
+	champ->prog_size = to_int(c);
+	if ((st = read(fd, &(champ->comment), COMMENT_LENGTH)) != COMMENT_LENGTH)
+		exit_print(cw, "error comment\n");
 	if ((st = read(fd, &c, 4)) != 4 || c[0] || c[1] || c[2] || c[3])
-		exit_print("no NULL in comment\n");
-	player->code = (unsigned char *)ft_strnew_uc(player->prog_size);
-	write_code(fd, file_name, player);
+		exit_print(cw, "no NULL in comment\n");
+	champ->code = (unsigned char *)ft_strnew_uc(champ->prog_size);
+	write_name_two(fd, file_name, champ, cw);
 }
 
-
-/*
-** i - номер текущего параметра
-** если параметр файл cor пытаемся записать чемпиона
-*/
-
-void			valid_player(int i, char **av, t_player *player)
+void			valid_champ(int i, char **av, t_player *champ, t_cw *cw)
 {
 	char	*name;
 	int		fd;
@@ -85,20 +98,25 @@ void			valid_player(int i, char **av, t_player *player)
 	{
 		if ((fd = open(av[i], O_RDONLY)) > 2)
 		{
-			write_header(fd, av[i], player);
+			write_name(fd, av[i], champ, cw);
 		}
-		if (player->file_name)
+		if (champ->file_name)
 			return ;
 		else
-			exit_print("not valid player file\n");
+			exit_print(cw, "not valid champ file\n");
 	}
 	else
-		exit_print("not valid player name\n");
+		exit_print(cw, "not valid champ name\n");
 }
 
 /*
+** i - номер текущего параметра
+** если параметр файл cw пытаемся записать чемпиона
+*/
+
+/*
 ** сохраняет чемпиона с флагом -n в m_ch[i - 1], если там не занято
-** если занято в cor->m_2[i] (пока i занято шагаем дальше)
+** если занято в cw->m_2[i] (пока i занято шагаем дальше)
 ** -n number
 ** sets the number of the next player. If non-existent,
 ** the player will have the next
@@ -111,26 +129,21 @@ void			valid_player(int i, char **av, t_player *player)
 ** но не превышать общее количество игроков, которые принимают участие в битве).
 */
 
-void			make_player_n(char **av, int n, t_cw *cor)
+void			make_champ_n(char **av, int n, t_cw *cw)
 {
 	int	i;
 
 	i = ft_atoi(av[n]);
-	if (i && i <= cor->n)
+	if (i < 1)
+		exit_print(cw, "n must be positive integer\n");
+	else if (i && i <= cw->n)
 	{
-		if (!(cor->ch[i - 1]).code)
+		if (!(cw->m_ch[i - 1]).code)
 		{
-			valid_player(++n, av, &(cor->ch[i - 1]));
-			cor->ch[i - 1].id = i - 1;
+			valid_champ(++n, av, &(cw->m_ch[i - 1]), cw);
+			cw->m_ch[i - 1].id = i - 1;
 		}
 		else
-			exit_print("not available n\n");
-	}
-	else
-	{
-		i = 0;
-		while (cor->ch_tmp[i].code)
-			i++;
-		valid_player(++n, av, &(cor->ch_tmp[i]));
+			exit_print(cw, "not available n\n");
 	}
 }

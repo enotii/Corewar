@@ -5,17 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/14 14:25:04 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/19 00:42:28 by sscottie         ###   ########.fr       */
+/*   Created: 2020/06/24 11:49:33 by sscottie          #+#    #+#             */
+/*   Updated: 2020/06/24 11:53:31 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
 
-void	print_usage(void)
-{
-	ft_printf("\033[0;32musage:\nflags: etc\n\033[0m");
-}
+#include "vm.h"
 
 int			to_int(unsigned char *c)
 {
@@ -27,89 +23,44 @@ int			val_reg(unsigned char reg)
 	return ((reg > 0 && reg <= REG_NUMBER) ? 1 : 0);
 }
 
-/*
-**		else if (ft_strcmp("-v", av[i]) == 0 && (i + 1) < ac
-**				&& ft_isdigit(av[i + 1][0]))
-**			take_flag_v(cor, ft_atoi(av[i + 1]), i);
-**		else if (ft_strcmp("-viz", av[i]) == 0 && ((i) + 1) < ac)
-**		{
-**			cor->visual.vis = 1;
-**			(*i)++;
-**		}
-**		else if (ft_strcmp("-a", av[i]) == 0)
-**			set_aff(cor, i);
-*/
-
-void				free_cor(t_cw *cor)
+static void	init_live(t_cw *cw)
 {
-	int			i;
-	t_carriage	*carr;
-
-	i = 0;
-	carr = cor->carr;
-	while (carr)
-		carr = remove_head(cor, carr);
-	while (i < cor->n && cor->ch[i].code)
-	{
-		free(cor->ch[i].code);
-		free(cor->ch[i].file_name);
-		i++;
-	}
+	cw->live.cyc_tmp = 0;
+	cw->live.id_live = cw->n;
+	cw->live.cyc = 0;
+	cw->live.live_count = 0;
+	cw->live.cyc_to_die = CYCLE_TO_DIE;
+	cw->aff = 0;
 }
 
-static void	zero_live(t_cw *cor)
+static void	init_flags_cw(t_cw *cw)
 {
-	cor->live.cyc_tmp = 0;
-	cor->live.id_live = cor->n;
-	cor->live.cyc = 0;
-	cor->live.live_count = 0;
-	cor->live.cyc_to_die = CYCLE_TO_DIE;
-	cor->aff = 0;
+	cw->v_print[0] = -1;
+	cw->v_print[1] = -1;
+	cw->v_print[2] = -1;
+	cw->v_print[3] = -1;
 }
 
-static void	init_flags(t_cw *cor)
+int			main(int ac, char **av)
 {
-	cor->v_print[0] = -1;
-	cor->v_print[1] = -1;
-	cor->v_print[2] = -1;
-	cor->v_print[3] = -1;
-}
-
-void	exit_print(char *str)
-{
-	ft_putstr_fd(str, 2);
-	exit(EXIT_FAILURE);
-}
-
-/*
-** parse_av - просматривает аргументы,
-** инициальзирует главную структуру
-** arena - если чемпионы валидны
-** 	cor->code = (char *)ft_memalloc(sizeof(char) * MEM_SIZE);
-**	cor->live = (t_live *)ft_memalloc(sizeof(t_live));
-**	cor->colormap = (int *)ft_memalloc(sizeof(int) * MEM_SIZE);
-** go_cor - cама игра
-*/
-
-int     main(int ac, char **av)
-{
-	static t_cw	cor;
+	static t_cw cw;
 
 	if (ac >= 2)
 	{
-		init_flags(&cor);
-		parser(ac, av, &cor);
-		map(&cor);
-		zero_live(&cor);
-		go_cor(&cor);
-		if (cor.n)
-			ft_printf("Contestant %d, \"%s\", has won !\n", cor.live.id_live,
-				(cor.ch[cor.live.id_live - 1]).prog_name);
-		free_cor(&cor);
+		init_flags_cw(&cw);
+		parser(ac, av, &cw);
+		map(&cw);
+		init_live(&cw);
+		cw.visual.vis ? init_window(&cw) : 0;
+		start_game(&cw);
+		if (cw.n)
+			ft_printf("Contestant %d, \"%s\", has won !\n", cw.live.id_live,
+				(cw.m_ch[cw.live.id_live - 1]).prog_name);
+		free_cw(&cw);
 	}
 	else
-	{
-		print_usage();
-	}
+		exit_print(&cw, "Usage: ./corewar [-dump <N> | -n --stealth"
+		" | -viz --visual | -a <champion1.cw> --on_viz_aff | -v --debug]\n");
+	endwin();
 	return (0);
 }

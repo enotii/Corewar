@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 21:30:09 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/19 00:36:15 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:46:32 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,57 +31,55 @@
 ** проверки вне зависимости от ее результатов.
 ** check_to_die - изменяет кол-во циклов до смерти
 ** check_live - удаляет каретки
-** cor->live->live_count - кол - во  операуий лайв
-** cor->live->counter - счетчик проверок от последнего изменени cyc_to_die
+** cw->live->live_count - кол - во  операуий лайв
+** cw->live->counter - счетчик проверок от последнего изменени cyc_to_die
 */
 
 /*
-** if (cor->live.cyc_to_die <= 0)
-** {
-** carr = cor->carr;
-** while (carr)
-** {
-** carr = remove_head(cor, carr);
-** 		}
-**	}
+** основная ф игры
+** print_dump_code - печатает код и выходит из игры, если есть dump
+** do_op - переходит к оперециям 2 из них изменяют код(st и sti),
+** и одна состояние лайв
+** check_live - в т.ч. меняет время до смерти и
+** делает проверку(удаляет лишние каретки)
 */
 
-static t_carriage	*check_to_die(t_cw *cor)
+static t_carriage	*check_to_die(t_cw *cw)
 {
-	(cor->live.counter)++;
-	if (cor->live.live_count >= NBR_LIVE)
+	(cw->live.counter)++;
+	if (cw->live.live_count >= NBR_LIVE)
 	{
-		cor->live.cyc_to_die = cor->live.cyc_to_die - CYCLE_DELTA;
-		if (cor->v_print[1] == 1)
-			ft_printf("Cycle to die is now %d\n", cor->live.cyc_to_die);
-		cor->live.counter = 0;
+		cw->live.cyc_to_die = cw->live.cyc_to_die - CYCLE_DELTA;
+		if (cw->v_print[1] == 1)
+			ft_printf("Cycle to die is now %d\n", cw->live.cyc_to_die);
+		cw->live.counter = 0;
 	}
-	else if (cor->live.counter == MAX_CHECKS)
+	else if (cw->live.counter == MAX_CHECKS)
 	{
-		cor->live.cyc_to_die = cor->live.cyc_to_die - CYCLE_DELTA;
-		cor->live.counter = 0;
-		if (cor->v_print[1] == 1)
-			ft_printf("Cycle to die is now %d\n", cor->live.cyc_to_die);
+		cw->live.cyc_to_die = cw->live.cyc_to_die - CYCLE_DELTA;
+		cw->live.counter = 0;
+		if (cw->v_print[1] == 1)
+			ft_printf("Cycle to die is now %d\n", cw->live.cyc_to_die);
 	}
-	cor->live.live_count = 0;
-	return (cor->carr);
+	cw->live.live_count = 0;
+	return (cw->carr);
 }
 
-static t_carriage	*check_live(t_cw *cor)
+static t_carriage	*check_live(t_cw *cw)
 {
 	t_carriage *carr;
 	t_carriage *prev;
 
-	carr = cor->carr;
+	carr = cw->carr;
 	prev = NULL;
 	while (carr)
 	{
-		if ((cor->live.cyc - carr->cycles_live) >= cor->live.cyc_to_die)
+		if ((cw->live.cyc - carr->cycles_live) >= cw->live.cyc_to_die)
 		{
-			if (cor->carr == carr)
-				carr = remove_head(cor, carr);
+			if (cw->carr == carr)
+				carr = remove_head(cw, carr);
 			else
-				carr = remove_elem(carr, &prev, cor);
+				carr = remove_elem(carr, &prev, cw);
 		}
 		else
 		{
@@ -89,122 +87,51 @@ static t_carriage	*check_live(t_cw *cor)
 			carr = carr->next;
 		}
 	}
-	return (cor->carr);
+	return (cw->carr);
 }
 
-/*
-** основная ф игры
-** print_dump_code - печатает код и выходит из игры, если есть dump
-** do_op - переходит к оперециям 2 из них изменяют код(st и sti),
-** и одна состояние лайв
-** check_live - в т.ч. меняет время до смерти и
-** делает проверку(удаляет лишние каретки)
-*/
-
-static void		cycles_read(t_cw *cor, t_carriage *tmp)
+static void		cycles_read(t_cw *cw, t_carriage *tmp)
 {
 	if (tmp->cycles_to == 0)
 	{
 		tmp->cur = mem_size(tmp->cur + tmp->i);
-		tmp->prog = read_byte_1(cor->code, tmp->cur);
+		tmp->prog = read_byte_1(cw->code, tmp->cur);
 		tmp->cycles_to = ft_cycles_to(tmp->prog);
 		tmp->i = 0;
 	}
 }
 
-/*
-** основная ф игры
-** print_dump_code - печатает код и выходит из игры, если есть dump
-** do_op - переходит к оперециям 2 из них изменяют код(st и sti),
-** и одна состояние лайв
-** check_live - в т.ч. меняет время до смерти и
-** делает проверку(удаляет лишние каретки)
-*/
-
-static	void	go_cor_2(t_cw *cor, t_carriage *tmp)
+static	void	start_game_2(t_cw *cw, t_carriage *tmp)
 {
-	if (cor->carr && (cor->live.cyc == cor->nbr_cyc || cor->nbr_cyc == 0))
-		print_dump_code(cor);
-	tmp = cor->carr;
-	// cor->visual.vis ? visual(cor) : 0;
-	if ((cor->live.cyc++ - cor->live.cyc_tmp) >= cor->live.cyc_to_die)
+	if (cw->carr && (cw->live.cyc == cw->nbr_cyc || cw->nbr_cyc == 0))
+		print_dump_code(cw);
+	tmp = cw->carr;
+	cw->visual.vis ? visual(cw) : 0;
+	if ((cw->live.cyc++ - cw->live.cyc_tmp) >= cw->live.cyc_to_die)
 	{
-		tmp = check_to_die(cor);
-		cor->live.cyc_tmp = cor->live.cyc - 1;
+		tmp = check_to_die(cw);
+		cw->live.cyc_tmp = cw->live.cyc - 1;
 	}
-	if (cor->v_print[1] == 1)
-		ft_printf("It is now cycle %d\n", cor->live.cyc);
+	if (cw->v_print[1] == 1)
+		ft_printf("It is now cycle %d\n", cw->live.cyc);
 	while (tmp)
 	{
-		cycles_read(cor, tmp);
+		cycles_read(cw, tmp);
 		if (--tmp->cycles_to == 0)
 		{
-			do_op(cor, tmp);
-			print_adv(cor, tmp);
+			do_op(cw, tmp);
+			print_adv(cw, tmp);
 		}
 		tmp = tmp->next;
 	}
-	if ((cor->live.cyc - cor->live.cyc_tmp) >= cor->live.cyc_to_die ||
-		cor->live.cyc_to_die <= 0)
-		tmp = check_live(cor);
+	if ((cw->live.cyc - cw->live.cyc_tmp) >= cw->live.cyc_to_die ||
+		cw->live.cyc_to_die <= 0)
+		tmp = check_live(cw);
 }
 
-void			go_cor(t_cw *cor)
+void			start_game(t_cw *cw)
 {
-	while (cor->carr)
-		go_cor_2(cor, NULL);
-	// cor->visual.vis ? stop_visual(cor) : 0;
+	while (cw->carr)
+		start_game_2(cw, NULL);
+	cw->visual.vis ? stop_visual(cw) : 0;
 }
-
-/*
-** void			go_cor(t_cor *cor)
-** {
-**	t_carr			*tmp;
-** 	int 	i;
-**
-** 	while (cor->carr)
-** 	{
-**		if (cor->carr && (cor->live.cyc == cor->nbr_cyc
-** 					|| cor->nbr_cyc == 0))
-** 			print_dump_code(cor);
-**		tmp = cor->carr;
-** 		cor->visual.vis ? visual(cor) : 0;
-**        if (cor->v_print[1] == 1)
-**            ft_printf("It is now cycle %d\n", cor->live.cyc + 1);
-** 		if ((cor->live.cyc++ - cor->live.cyc_tmp) >= cor->live.cyc_to_die)
-** 		{
-** 			tmp = check_to_die(cor);
-**			cor->live.cyc_tmp = cor->live.cyc - 1;
-** 		}
-**         if (cor->v_print[1] == 1 )
-**             ft_printf("It is now cycle %d\n", cor->live.cyc);
-**         while (tmp)
-**         {
-**             cycles_read(cor, tmp);
-**             if (--tmp->cycles_to == 0)
-** 			{
-** 				do_op(cor, tmp);
-** 				if (cor->v_print[2] == 1 && tmp->i > 1) // 1 может быть ?
-** 				{
-** 					ft_printf("ADV %d (0x%04x -> 0x%04x) ", tmp->i,
-**					tmp->cur, tmp->cur + tmp->i);
-** 					i = tmp->cur;
-** 					while (i < (tmp->cur + tmp->i))
-** 					{
-** 						ft_printf("%02x ",\
-** 						cor->code[i % MEM_SIZE],\
-** 							cor->code[i % MEM_SIZE]);
-** 						++i;
-** 					}
-** 					ft_printf("\n");
-** 				}
-** 			}
-**             tmp = tmp->next;
-**         }
-** 	if ((cor->live.cyc - cor->live.cyc_tmp) >= cor->live.cyc_to_die ||
-**	cor->live.cyc_to_die <= 0)
-** 		tmp = check_live(cor);
-** 	}
-** 	cor->visual.vis ? stop_visual(cor) : 0;
-** }
-*/

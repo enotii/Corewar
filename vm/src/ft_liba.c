@@ -6,31 +6,32 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/10 14:01:00 by rdonnor           #+#    #+#             */
-/*   Updated: 2020/06/19 00:39:46 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:38:18 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-// void				free_cor(t_cw *cor)
-// {
-// 	int		i;
-// 	t_carriage	*carr;
+void				free_cw(t_cw *cw)
+{
+	int		i;
+	t_carriage	*carr;
 
-// 	i = 0;
-// 	carr = cor->carr;
-// 	while (carr)
-// 		carr = remove_head(cor, carr);
-// 	while (i < cor->n && cor->ch[i].code)
-// 	{
-// 		free(cor->ch[i].code);
-// 		free(cor->ch[i].file_name);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	carr = cw->carr;
+	while (carr)
+		carr = remove_head(cw, carr);
+	while (i < cw->n && cw->m_ch[i].code)
+	{
+		free(cw->m_ch[i].code);
+		free(cw->m_ch[i].file_name);
+		i++;
+	}
+}
 
 unsigned char		*ft_strncpy_all(unsigned char *dest,
-									const unsigned char *source, size_t n)
+	const unsigned char *source,
+	size_t n)
 {
 	size_t	i;
 

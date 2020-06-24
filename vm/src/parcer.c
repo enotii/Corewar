@@ -6,80 +6,97 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/11 14:36:34 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/11 15:21:36 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/24 11:45:06 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-static void		swap_players(t_cw *cor)
+static void		change_pos(t_cw *cw)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < cor->n)
+	while (i < cw->n)
 	{
-		if (!cor->ch[i].code && cor->ch_tmp[j].code)
+		if (!cw->m_ch[i].code && cw->m_2[j].code)
 		{
-			cor->ch[i] = cor->ch_tmp[j];
-			cor->ch[i].id = i;
+			cw->m_ch[i] = cw->m_2[j];
+			cw->m_ch[i].id = i;
 			j++;
 		}
-		else if (!cor->ch[i].code && !cor->ch_tmp[j].code)
-			exit_print("player's number less then flag -n");
+		else if (!cw->m_ch[i].code && !cw->m_2[j].code)
+			exit_print(cw, "number champ less then flag -n\n");
 		i++;
 	}
 }
 
-static void		dump_arg(int i, t_cw *cor, int ac, char **av)
+static void		dump_arg(int *i, t_cw *cw, int ac, char **av)
 {
-	if (i == (ac - 1))
-		exit_print("Can't read source file -dump");
-	cor->nbr_cyc = 0;
-	cor->nbr_cyc = ft_atoi(av[i + 1]);
+	int		y;
+
+	y = 0;
+	if (*i == (ac - 1))
+		exit_print(cw, "Can't read source file -dump\n");
+	cw->nbr_cyc = 0;
+	cw->nbr_cyc = ft_atoi(av[*i + 1]);
+	if (cw->nbr_cyc < 0)
+		exit_print(cw, "dump must be positive integer or 0\n");
+	*i += 2;
 }
 
-static void	init_players(int ac, char	**av, t_cw *cor)
+static void		take_cw_2(int ac, char **av, t_cw *cw, int *i)
+{
+	static int	j;
+
+	if (!(ft_strcmp("-dump", av[*i])))
+		dump_arg(i, cw, ac, av);
+	else if (ft_strcmp("-a", av[*i]) == 0)
+		set_aff(cw, i);
+	else if (ft_strcmp("-n", av[*i]) == 0 && (*i + 2) < ac)
+	{
+		make_champ_n(av, ++(*i), cw);
+		*i += 2;
+	}
+	else if (ft_strstr(av[*i], ".cor") && j < MAX_PLAYERS)
+		valid_champ((*i)++, av, &(cw->m_2[j++]), cw);
+	else if (ft_strcmp("-v", av[*i]) == 0 && (*i + 1) < ac
+			&& ft_isdigit(av[*i + 1][0]))
+		take_flag_v(cw, ft_atoi(av[*i + 1]), i);
+	else if (ft_strcmp("-viz", av[*i]) == 0 && ((*i) + 1) < ac)
+	{
+		cw->visual.vis = 1;
+		(*i)++;
+	}
+	else
+		exit_print(cw, "Can't read source file\n");
+}
+
+static void		take_cw(int ac, char **av, t_cw *cw)
 {
 	int i;
-	int	j;
 
 	i = 1;
-	j = 0;
 	while (i < ac)
-	{
-		if (!(ft_strcmp("-dump", av[i])))
-		{
-			dump_arg(i, cor, ac, av);
-			i += 2;
-		}
-		else if (ft_strcmp("-n", av[i]) == 0 && (i + 2) < ac)
-		{
-			make_player_n(av, ++i, cor);
-			i += 2;
-		}
-		else if (ft_strstr(av[i], ".cor") && j < MAX_PLAYERS)
-			valid_player((i)++, av, &(cor->ch_tmp[j++]));
-		else
-			exit_print("Can't read source file\n");
-	}
+		take_cw_2(ac, av, cw, &i);
 }
 
-void	parser(int ac, char **av, t_cw *cor)
+void			*parser(int ac, char **av, t_cw *cw)
 {
-	int 	i;
+	int		i;
 	char	*name;
 
-	cor->nbr_cyc = -1;
+	cw->nbr_cyc = -1;
 	i = 0;
 	while (++i < ac)
-		if ((name = ft_strstr(av[i], ".cor")) && name[4] == '\0' 
-			&& ft_strlen(av[i]) != 4)
-		cor->n++;
-	if (cor->n > MAX_PLAYERS)
-		exit_print("Number of players more than MAX_PLAYERS\n");
-	init_players(ac, av, cor);
-	swap_players(cor);
+		if ((name = ft_strstr(av[i], ".cor")) && name[4] == '\0'
+				&& ft_strlen(av[i]) != 4)
+			cw->n++;
+	if (cw->n > MAX_PLAYERS)
+		exit_print(cw, "number players more than MAX_PLAYERS\n");
+	take_cw(ac, av, cw);
+	change_pos(cw);
+	return (cw);
 }
