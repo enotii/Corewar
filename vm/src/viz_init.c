@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 11:17:20 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 11:38:18 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/26 15:57:44 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	create_field(t_cw *cw)
 	cw->visual.side_win = create_newwin(65, 56, 1, 196);
 	nodelay(cw->visual.main_win, 1);
 	nodelay(cw->visual.side_win, 1);
-	draw(cw);
+	render(cw);
 }
 
-void	draw(t_cw *cw)
+void	render(t_cw *cw)
 {
 	curs_set(0);
 	usleep(cw->visual.delay);
@@ -71,12 +71,20 @@ int		graph_cycle(t_cw *cw)
 		cw->visual.delay += 1000;
 	else if (ch == '-' && cw->visual.delay > 1000)
 		cw->visual.delay -= 1000;
+	else if (ch == 'w')
+	{
+		cw->visual.vis = 0;
+		start_game(cw);
+		cw->visual.vis = 1;
+		render(cw);
+		stop_visual(cw);
+	}
 	return (0);
 }
 
 void	visual(t_cw *cw)
 {
-	draw(cw);
+	render(cw);
 	graph_cycle(cw);
 	while (cw->visual.pause == 0)
 	{

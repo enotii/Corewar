@@ -1,53 +1,66 @@
-#smotri ne pereputai
-
 .name "Pupa"
 .comment "don't Lupa"
-
-gobepc:	st r1,:buff
-	st r6,-4
-	ld :buff,r1
-debut:	ld %0,r7
-	zjmp %:suite
-
-goboucle0:	live %66
-		ldi %-5,r3,r1
-		sti r1,%-173,r3
-		add r3,r4,r3
-		xor r5,r3,r6
-		zjmp %:finboucle0
-		ld %0,r7
-		zjmp %:goboucle0
-finboucle0:	xor r3,r3,r3
-		zjmp %-207
-
-buff:	st r1,r1	
-		
-suite:	sti r1,%:livel,%1
-livel:	live %66
-	sti r2,%:debut,%-60
-	ld %4,r4
-	st r2,512
-go:	ld %48,r5
-	sti r1,%:goboucle0,%1
-	sti r1,%:goboucle1,%1
-	sti r1,%:live0,%1
-	sti r1,%:live1,%1
-	sti r1,%:live2,%1
-	sti r1,%:live3,%1
-	sti r1,%:live4,%1
-live0:	live %66
-live1:	live %66
-live2:	live %66
-live3:	live %66
-live4:	live %66
-	zjmp %:live0
-	xor r3,r3,r3
-	sti r1,%:livex,%1
-livex:	live %66
-	fork %:live0
-	sti r1,%:boucle,%1
-	sti r1,%:boucle,%9
-	sti r1,%:boucle,%17
+st r1, 73
+st r6, -4
+ld 63, r1
+ld %0, r7
+zjmp %55
+live %66
+ldi %-5, r3, r1
+sti r1, %-173, r3
+add r3, r4, r3
+xor r5, r3, r6
+zjmp %13
+ld %0, r7
+zjmp %-37
+xor r3, r3, r3
+zjmp %-207
+st r1, r1
+sti r1, %7, %1
+live %66
+sti r2, %-74, %-60
+ld %4, r4
+st r2, 512
+ld %48, r5
+sti r1, %-90, %1
+sti r1, %150, %1
+sti r1, %35, %1
+sti r1, %33, %1
+sti r1, %31, %1
+sti r1, %29, %1
+sti r1, %27, %1
+live %66
+live %66
+live %66
+live %66
+live %66
+zjmp %-25
+xor r3, r3, r3
+sti r1, %7, %1
+live %66
+fork %-45
+sti r1, %28, %1
+sti r1, %21, %9
+sti r1, %14, %17
+sti r1, %7, %25
+live %66
+fork %-220
+live %66
+fork %-13
+live %66
+fork %11
+live %66
+zjmp %-244
+live %66
+ldi %-5, r3, r1
+sti r1, %17, r3
+add r3, r4, r3
+xor r5, r3, r6
+zjmp %13
+ld %0, r7
+zjmp %-37
+xor r3, r3, r3
+zjmp %1
 	sti r1,%:boucle,%25
 	
 boucle:	live %66

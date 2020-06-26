@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 11:17:04 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 17:35:13 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/26 16:08:34 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	side_panel(WINDOW *side_win, t_cw *cw)
 	mvwprintw(side_win, line + 2, 2, "CYCLE_DELTA : %d ", CYCLE_DELTA);
 	mvwprintw(side_win, 23, 2, "DELTA_TIME_PRINT : %d ",
 	cw->visual.delay);
+	mvwprintw(side_win, 60, 2,
+		"USAGE:\n  PAUSE = SPACE\n  SPEED: '-' / '+'\n  FINAL: 'w'");
 }
 
 void	paint_carg(t_cw *cw)

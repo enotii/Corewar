@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 11:49:33 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 17:40:00 by Student          ###   ########.fr       */
+/*   Updated: 2020/06/26 13:23:37 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			main(int ac, char **av)
 	}
 	else
 		exit_print(&cw, "Usage: ./corewar [-dump <N> | -n --stealth"
-		" | -viz --visual | -a <champion1.cw> --on_viz_aff | -v --debug]\n");
+		" | -viz --visual | -a <champion1.cor> --on_viz_aff | -v --debug]\n");
 	endwin();
 	return (0);
 }

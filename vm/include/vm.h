@@ -6,7 +6,7 @@
 /*   By: sscottie <sscottie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/11 03:27:18 by sscottie          #+#    #+#             */
-/*   Updated: 2020/06/24 11:41:40 by sscottie         ###   ########.fr       */
+/*   Updated: 2020/06/26 15:45:08 by sscottie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void					*parser(int ac, char **av, t_cw *cw);
 
 void					write_name(int fd, char *file_name,
 							t_player *champ, t_cw *cw);
-void					valid_champ(int i, char **av, t_player *champ, t_cw *cw);
+void					valid_champ(int i, char **av,
+							t_player *champ, t_cw *cw);
 void					make_champ_n(char **av, int n, t_cw *cw);
 
 /*
@@ -119,7 +120,8 @@ t_carriage				*new_curr(int id_par, t_cw *cw);
 void					add_curr(t_carriage **all_carr, t_carriage *new);
 int						len_curr(t_carriage *list);
 t_carriage				*remove_head(t_cw *cw, t_carriage *curr);
-t_carriage				*remove_elem(t_carriage *curr, t_carriage **prev, t_cw *cw);
+t_carriage				*remove_elem(t_carriage *curr,
+							t_carriage **prev, t_cw *cw);
 t_carriage				*carr_list(t_cw *cw);
 
 /*
@@ -197,12 +199,12 @@ void					copy_p(void *dst, const void *src, int d_s, int s_s);
 void					set_aff(t_cw *cw, int *i);
 
 /*
-** visu
+** viz
 */
 
 void					init_window(t_cw *cw);
 void					create_field(t_cw *cw);
-void					draw(t_cw *cw);
+void					render(t_cw *cw);
 WINDOW					*create_newwin(int height, int width, int sty, int stx);
 void					side_panel(WINDOW *side_win, t_cw *cw);
 int						players(WINDOW *side_win, int line, t_cw *cw);
@@ -210,7 +212,8 @@ void					main_panel(WINDOW *main_win, t_cw *tool);
 void					paint_carg(t_cw *cw);
 void					visual(t_cw *cw);
 int						graph_cycle(t_cw *cw);
-void					write_map_color(t_cw *cw, int pos, int len, t_carriage *carg);
+void					write_map_color(t_cw *cw, int pos,
+							int len, t_carriage *carg);
 void					end_game(t_cw *cw);
 void					stop_visual(t_cw *cw);
 void					panel_help(t_cw *cw, WINDOW *main_win, int i, int line);
