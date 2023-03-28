@@ -1,0 +1,133 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ASRZ 2.0 Swagger API Documentation",
+        "contact": {
+            "email": "N.Y.Shvetsov@mgts.ru; D.A.Klenov@mgts.ru; N.G.Voronin@mgts.ru; A.S.Storchak@mgts.ru; K.A.Adamuk@mgts.ru"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "ASRZ 2.0 Swagger API"
+        },
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {"/orders/cpes": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Метод возвращает информацию об установленном оборудовании абонента",
+                "description": "Аналог метода getOrderCpe. Привелегия 856",
+                "parameters": [
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "Стационарный телефонный номер абонента. Указывается в формате 4951234567",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cpeType",
+                        "in": "query",
+                        "description": "Тип оборудования абонента. Список типов оборудования возвращается методом getCpeType. Параметр cpeTypeCode.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderCurrStageFinal",
+                        "in": "query",
+                        "description": "Признак конечности этапа. Может принимать значения:<ul><li>0 - не конечный этап;</li><li>1 - конечный этап;</li><li>2 - этап 'Эксплуатация'.</li></ul> По умолчанию значение - этап 'Эксплуатация'.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderIdList",
+                        "in": "query",
+                        "description": "Массив номеров заявок АСРЗ 208.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "parentUSPD",
+                        "in": "query",
+                        "description": "Номер родительской заявки АСРЗ 200.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "Номер родительской заявки АСРЗ 208.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cpeSerialNumber",
+                        "in": "query",
+                        "description": "Серийный номер",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGetOrderCpe"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    },
+                    "500": {
+                        "description": "There is a problem with the resource you are looking for, and it cannot be displayed"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "x-production": true
+            }
+        },
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
