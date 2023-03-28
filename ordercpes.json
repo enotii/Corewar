@@ -2,9 +2,6 @@
     "openapi": "3.0.0",
     "info": {
         "title": "ASRZ 2.0 Swagger API Documentation",
-        "contact": {
-            "email": "N.Y.Shvetsov@mgts.ru; D.A.Klenov@mgts.ru; N.G.Voronin@mgts.ru; A.S.Storchak@mgts.ru; K.A.Adamuk@mgts.ru"
-        },
         "version": "1.0"
     },
     "servers": [
@@ -126,8 +123,5 @@
                 "scheme": "basic"
             }
         }
-    },
-    "security": [
-        []
-    ]
+    }
 }

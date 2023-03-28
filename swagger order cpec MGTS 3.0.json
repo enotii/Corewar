@@ -112,6 +112,142 @@
                         "description": "unexpected error"
                     }
                 },
+				"ResponseGetOrderCpe": {
+                "title": "Выходные параметры метода GET /orders/cpes",
+                "description": "Выходные параметры метода GET /orders/cpes",
+                "properties": {
+                    "data": {
+                        "description": "Массив данных",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "cpeSerialnumber": {
+                                    "description": "Серийный номер оборудования.",
+                                    "type": "string",
+                                    "example": "QX1N2H9002913"
+                                },
+                                "cpeName": {
+                                    "description": "Техническое наименование оборудования.",
+                                    "type": "string",
+                                    "example": "D-link DSL-2640U"
+                                },
+                                "cpeType": {
+                                    "description": "Тип оборудования.",
+                                    "type": "string",
+                                    "example": "ADSL-модем"
+                                },
+                                "cpeTypeCode": {
+                                    "description": "Код типа оборудования.",
+                                    "type": "string",
+                                    "example": "ADSL_MODEM"
+                                },
+                                "cpeMac": {
+                                    "description": "МАС адрес оборудования.",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "cpeId": {
+                                    "description": "Код оборудования.",
+                                    "type": "string",
+                                    "example": "3"
+                                },
+                                "cardnumber": {
+                                    "description": "Номер карты КТВ (кабельное телевидение).",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "orderId": {
+                                    "description": "Номер заявки 'Оборудование'.",
+                                    "type": "string",
+                                    "example": "33541178"
+                                },
+                                "orderPriceplan": {
+                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
+                                    "type": "string",
+                                    "example": "CPE_OWN"
+                                },
+                                "orderPriceplanName": {
+                                    "description": "Наименование тарифного плана в заявке, к которой привязано оборудование.",
+                                    "type": "string",
+                                    "example": "Оборудование в собственности/пользовании у Абонента"
+                                },
+                                "tpCodeForis": {
+                                    "description": "Код ТП для биллинга МГТС",
+                                    "type": "string",
+                                    "example": "-1"
+                                },
+                                "orderPriceplanPrice": {
+                                    "description": "Цена ТП",
+                                    "type": "string",
+                                    "example": "0"
+                                },
+                                "cpeComName": {
+                                    "description": "Коммерческое наименование оборудования.",
+                                    "type": "string",
+                                    "example": "D-link DSL-2640U"
+                                },
+                                "cpeTpCode": {
+                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
+                                    "type": "string",
+                                    "example": "CPE_OWN"
+                                },
+                                "eqState": {
+                                    "description": "Код состояния оборудования",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "eqStateName": {
+                                    "description": "Наименование состояния оборудования",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "loanStartdate": {
+                                    "description": "Дата начала действия оборудования",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "cpeOwner": {
+                                    "description": "Код владельца оборудования",
+                                    "type": "string",
+                                    "example": "510"
+                                },
+                                "cpeOwnerName": {
+                                    "description": "Наименование владельца оборудования",
+                                    "type": "string",
+                                    "example": "Пользование"
+                                },
+                                "orderCreator": {
+                                    "description": "Заявка инициатор",
+                                    "type": "string",
+                                    "example": "33522718"
+                                },
+                                "parentServiceProviderCode": {
+                                    "description": "Код сервис-провайдера.",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "serviceCode": {
+                                    "description": "Код услуги",
+                                    "type": "string",
+                                    "example": null
+                                },
+                                "servicePrice": {
+                                    "description": "Цена услуги",
+                                    "type": "integer",
+                                    "example": 0
+                                },
+                                "params": {
+                                    "description": "Параметры заявки",
+                                    "type": "",
+                                    "example": "{'orderCreator': '33522718'}"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
                 "security": [
                     {
                         "basicAuth": []
