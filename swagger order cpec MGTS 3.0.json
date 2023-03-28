@@ -1,404 +1,269 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "ASRZ 2.0 Swagger API Documentation",
-        "contact": {
-            "email": "N.Y.Shvetsov@mgts.ru; D.A.Klenov@mgts.ru; N.G.Voronin@mgts.ru; A.S.Storchak@mgts.ru; K.A.Adamuk@mgts.ru"
-        },
-        "version": "1.0"
-    },
-    "servers": [
-        {
-            "url": "/api",
-            "description": "ASRZ 2.0 Swagger API"
-        },
-        {
-            "url": "/api"
-        }
-    ],
-    "paths": {"/orders/cpes": {
-            "get": {
-                "tags": [
-                    "Orders"
-                ],
-                "summary": "Метод возвращает информацию об установленном оборудовании абонента",
-                "description": "Аналог метода getOrderCpe. Привелегия 856",
-                "parameters": [
-                    {
-                        "name": "phoneNumber",
-                        "in": "query",
-                        "description": "Стационарный телефонный номер абонента. Указывается в формате 4951234567",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+   "openapi":"3.0.0",
+   "info":{
+      "title":"ASRZ 2.0 Swagger API Documentation",
+      "contact":{
+         "email":"N.Y.Shvetsov@mgts.ru; D.A.Klenov@mgts.ru; N.G.Voronin@mgts.ru; A.S.Storchak@mgts.ru; K.A.Adamuk@mgts.ru"
+      },
+      "version":"1.0"
+   },
+   "servers":[
+      {
+         "url":"http://dev-asrz2-ng05.mgts.corp.net/api",
+         "description":"ASRZ 2.0 Swagger API"
+      }
+   ],
+   "paths":{
+      "/orders/cpes":{
+         "get":{
+            "tags":[
+               "Orders"
+            ],
+            "summary":"Метод возвращает информацию об установленном оборудовании абонента",
+            "description":"Аналог метода getOrderCpe. Привелегия 856",
+            "parameters":[
+               {
+                  "name":"phoneNumber",
+                  "in":"query",
+                  "description":"Стационарный телефонный номер абонента. Указывается в формате 4951234567",
+                  "required":true,
+                  "schema":{
+                     "type":"string"
+                  }
+               },
+               {
+                  "name":"cpeType",
+                  "in":"query",
+                  "description":"Тип оборудования абонента. Список типов оборудования возвращается методом getCpeType. Параметр cpeTypeCode.",
+                  "required":false,
+                  "schema":{
+                     "type":"string"
+                  }
+               },
+               {
+                  "name":"orderCurrStageFinal",
+                  "in":"query",
+                  "description":"Признак конечности этапа. Может принимать значения:<ul><li>0 - не конечный этап;</li><li>1 - конечный этап;</li><li>2 - этап 'Эксплуатация'.</li></ul> По умолчанию значение - этап 'Эксплуатация'.",
+                  "required":false,
+                  "schema":{
+                     "type":"integer"
+                  }
+               },
+               {
+                  "name":"orderIdList",
+                  "in":"query",
+                  "description":"Массив номеров заявок АСРЗ 208.",
+                  "required":false,
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"integer"
+                     }
+                  }
+               },
+               {
+                  "name":"parentUSPD",
+                  "in":"query",
+                  "description":"Номер родительской заявки АСРЗ 200.",
+                  "required":false,
+                  "schema":{
+                     "type":"integer"
+                  }
+               },
+               {
+                  "name":"parentId",
+                  "in":"query",
+                  "description":"Номер родительской заявки АСРЗ 208.",
+                  "required":false,
+                  "schema":{
+                     "type":"integer"
+                  }
+               },
+               {
+                  "name":"cpeSerialNumber",
+                  "in":"query",
+                  "description":"Серийный номер",
+                  "required":false,
+                  "schema":{
+                     "type":"string"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Ok",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/ResponseGetOrderCpe"
                         }
-                    },
-                    {
-                        "name": "cpeType",
-                        "in": "query",
-                        "description": "Тип оборудования абонента. Список типов оборудования возвращается методом getCpeType. Параметр cpeTypeCode.",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "orderCurrStageFinal",
-                        "in": "query",
-                        "description": "Признак конечности этапа. Может принимать значения:<ul><li>0 - не конечный этап;</li><li>1 - конечный этап;</li><li>2 - этап 'Эксплуатация'.</li></ul> По умолчанию значение - этап 'Эксплуатация'.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "orderIdList",
-                        "in": "query",
-                        "description": "Массив номеров заявок АСРЗ 208.",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            }
-                        }
-                    },
-                    {
-                        "name": "parentUSPD",
-                        "in": "query",
-                        "description": "Номер родительской заявки АСРЗ 200.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "parentId",
-                        "in": "query",
-                        "description": "Номер родительской заявки АСРЗ 208.",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "cpeSerialNumber",
-                        "in": "query",
-                        "description": "Серийный номер",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    
-                "title": "Выходные параметры метода GET /orders/cpes",
-                "description": "Выходные параметры метода GET /orders/cpes",
-                "properties": {
-                    "data": {
-                        "description": "Массив данных",
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "cpeSerialnumber": {
-                                    "description": "Серийный номер оборудования.",
-                                    "type": "string",
-                                    "example": "QX1N2H9002913"
-                                },
-                                "cpeName": {
-                                    "description": "Техническое наименование оборудования.",
-                                    "type": "string",
-                                    "example": "D-link DSL-2640U"
-                                },
-                                "cpeType": {
-                                    "description": "Тип оборудования.",
-                                    "type": "string",
-                                    "example": "ADSL-модем"
-                                },
-                                "cpeTypeCode": {
-                                    "description": "Код типа оборудования.",
-                                    "type": "string",
-                                    "example": "ADSL_MODEM"
-                                },
-                                "cpeMac": {
-                                    "description": "МАС адрес оборудования.",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "cpeId": {
-                                    "description": "Код оборудования.",
-                                    "type": "string",
-                                    "example": "3"
-                                },
-                                "cardnumber": {
-                                    "description": "Номер карты КТВ (кабельное телевидение).",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "orderId": {
-                                    "description": "Номер заявки 'Оборудование'.",
-                                    "type": "string",
-                                    "example": "33541178"
-                                },
-                                "orderPriceplan": {
-                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "CPE_OWN"
-                                },
-                                "orderPriceplanName": {
-                                    "description": "Наименование тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "Оборудование в собственности/пользовании у Абонента"
-                                },
-                                "tpCodeForis": {
-                                    "description": "Код ТП для биллинга МГТС",
-                                    "type": "string",
-                                    "example": "-1"
-                                },
-                                "orderPriceplanPrice": {
-                                    "description": "Цена ТП",
-                                    "type": "string",
-                                    "example": "0"
-                                },
-                                "cpeComName": {
-                                    "description": "Коммерческое наименование оборудования.",
-                                    "type": "string",
-                                    "example": "D-link DSL-2640U"
-                                },
-                                "cpeTpCode": {
-                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "CPE_OWN"
-                                },
-                                "eqState": {
-                                    "description": "Код состояния оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "eqStateName": {
-                                    "description": "Наименование состояния оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "loanStartdate": {
-                                    "description": "Дата начала действия оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "cpeOwner": {
-                                    "description": "Код владельца оборудования",
-                                    "type": "string",
-                                    "example": "510"
-                                },
-                                "cpeOwnerName": {
-                                    "description": "Наименование владельца оборудования",
-                                    "type": "string",
-                                    "example": "Пользование"
-                                },
-                                "orderCreator": {
-                                    "description": "Заявка инициатор",
-                                    "type": "string",
-                                    "example": "33522718"
-                                },
-                                "parentServiceProviderCode": {
-                                    "description": "Код сервис-провайдера.",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "serviceCode": {
-                                    "description": "Код услуги",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "servicePrice": {
-                                    "description": "Цена услуги",
-                                    "type": "integer",
-                                    "example": 0
-                                },
-                                "params": {
-                                    "description": "Параметры заявки",
-                                    "type": "",
-                                    "example": "{'orderCreator': '33522718'}"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
-            
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Page not found"
-                    },
-                    "500": {
-                        "description": "There is a problem with the resource you are looking for, and it cannot be displayed"
-                    },
-                    "default": {
-                        "description": "unexpected error"
-                    }
-                },
-				"ResponseGetOrderCpe": {
-                "title": "Выходные параметры метода GET /orders/cpes",
-                "description": "Выходные параметры метода GET /orders/cpes",
-                "properties": {
-                    "data": {
-                        "description": "Массив данных",
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "cpeSerialnumber": {
-                                    "description": "Серийный номер оборудования.",
-                                    "type": "string",
-                                    "example": "QX1N2H9002913"
-                                },
-                                "cpeName": {
-                                    "description": "Техническое наименование оборудования.",
-                                    "type": "string",
-                                    "example": "D-link DSL-2640U"
-                                },
-                                "cpeType": {
-                                    "description": "Тип оборудования.",
-                                    "type": "string",
-                                    "example": "ADSL-модем"
-                                },
-                                "cpeTypeCode": {
-                                    "description": "Код типа оборудования.",
-                                    "type": "string",
-                                    "example": "ADSL_MODEM"
-                                },
-                                "cpeMac": {
-                                    "description": "МАС адрес оборудования.",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "cpeId": {
-                                    "description": "Код оборудования.",
-                                    "type": "string",
-                                    "example": "3"
-                                },
-                                "cardnumber": {
-                                    "description": "Номер карты КТВ (кабельное телевидение).",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "orderId": {
-                                    "description": "Номер заявки 'Оборудование'.",
-                                    "type": "string",
-                                    "example": "33541178"
-                                },
-                                "orderPriceplan": {
-                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "CPE_OWN"
-                                },
-                                "orderPriceplanName": {
-                                    "description": "Наименование тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "Оборудование в собственности/пользовании у Абонента"
-                                },
-                                "tpCodeForis": {
-                                    "description": "Код ТП для биллинга МГТС",
-                                    "type": "string",
-                                    "example": "-1"
-                                },
-                                "orderPriceplanPrice": {
-                                    "description": "Цена ТП",
-                                    "type": "string",
-                                    "example": "0"
-                                },
-                                "cpeComName": {
-                                    "description": "Коммерческое наименование оборудования.",
-                                    "type": "string",
-                                    "example": "D-link DSL-2640U"
-                                },
-                                "cpeTpCode": {
-                                    "description": "Код тарифного плана в заявке, к которой привязано оборудование.",
-                                    "type": "string",
-                                    "example": "CPE_OWN"
-                                },
-                                "eqState": {
-                                    "description": "Код состояния оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "eqStateName": {
-                                    "description": "Наименование состояния оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "loanStartdate": {
-                                    "description": "Дата начала действия оборудования",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "cpeOwner": {
-                                    "description": "Код владельца оборудования",
-                                    "type": "string",
-                                    "example": "510"
-                                },
-                                "cpeOwnerName": {
-                                    "description": "Наименование владельца оборудования",
-                                    "type": "string",
-                                    "example": "Пользование"
-                                },
-                                "orderCreator": {
-                                    "description": "Заявка инициатор",
-                                    "type": "string",
-                                    "example": "33522718"
-                                },
-                                "parentServiceProviderCode": {
-                                    "description": "Код сервис-провайдера.",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "serviceCode": {
-                                    "description": "Код услуги",
-                                    "type": "string",
-                                    "example": null
-                                },
-                                "servicePrice": {
-                                    "description": "Цена услуги",
-                                    "type": "integer",
-                                    "example": 0
-                                },
-                                "params": {
-                                    "description": "Параметры заявки",
-                                    "type": "",
-                                    "example": "{'orderCreator': '33522718'}"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
+                     }
+                  }
+               },
+               "404":{
+                  "description":"Page not found"
+               },
+               "500":{
+                  "description":"There is a problem with the resource you are looking for, and it cannot be displayed"
+               },
+               "default":{
+                  "description":"unexpected error"
+               }
             },
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "x-production": true
+            "security":[
+               {
+                  "basicAuth":[
+                     
+                  ]
+               }
+            ],
+            "x-production":true
+         }
+      },
+      "components":{
+         "schemas":{
+            "ResponseGetOrderCpe":{
+               "type":"object",
+               "title":"Выходные параметры метода GET /orders/cpes",
+               "description":"Выходные параметры метода GET /orders/cpes",
+               "properties":{
+                  "data":{
+                     "description":"Массив данных",
+                     "type":"array",
+                     "items":{
+                        "properties":{
+                           "cpeSerialnumber":{
+                              "description":"Серийный номер оборудования.",
+                              "type":"string",
+                              "example":"QX1N2H9002913"
+                           },
+                           "cpeName":{
+                              "description":"Техническое наименование оборудования.",
+                              "type":"string",
+                              "example":"D-link DSL-2640U"
+                           },
+                           "cpeType":{
+                              "description":"Тип оборудования.",
+                              "type":"string",
+                              "example":"ADSL-модем"
+                           },
+                           "cpeTypeCode":{
+                              "description":"Код типа оборудования.",
+                              "type":"string",
+                              "example":"ADSL_MODEM"
+                           },
+                           "cpeMac":{
+                              "description":"МАС адрес оборудования.",
+                              "type":"string",
+                              "example":null
+                           },
+                           "cpeId":{
+                              "description":"Код оборудования.",
+                              "type":"string",
+                              "example":"3"
+                           },
+                           "cardnumber":{
+                              "description":"Номер карты КТВ (кабельное телевидение).",
+                              "type":"string",
+                              "example":null
+                           },
+                           "orderId":{
+                              "description":"Номер заявки 'Оборудование'.",
+                              "type":"string",
+                              "example":"33541178"
+                           },
+                           "orderPriceplan":{
+                              "description":"Код тарифного плана в заявке, к которой привязано оборудование.",
+                              "type":"string",
+                              "example":"CPE_OWN"
+                           },
+                           "orderPriceplanName":{
+                              "description":"Наименование тарифного плана в заявке, к которой привязано оборудование.",
+                              "type":"string",
+                              "example":"Оборудование в собственности/пользовании у Абонента"
+                           },
+                           "tpCodeForis":{
+                              "description":"Код ТП для биллинга МГТС",
+                              "type":"string",
+                              "example":"-1"
+                           },
+                           "orderPriceplanPrice":{
+                              "description":"Цена ТП",
+                              "type":"string",
+                              "example":"0"
+                           },
+                           "cpeComName":{
+                              "description":"Коммерческое наименование оборудования.",
+                              "type":"string",
+                              "example":"D-link DSL-2640U"
+                           },
+                           "cpeTpCode":{
+                              "description":"Код тарифного плана в заявке, к которой привязано оборудование.",
+                              "type":"string",
+                              "example":"CPE_OWN"
+                           },
+                           "eqState":{
+                              "description":"Код состояния оборудования",
+                              "type":"string",
+                              "example":null
+                           },
+                           "eqStateName":{
+                              "description":"Наименование состояния оборудования",
+                              "type":"string",
+                              "example":null
+                           },
+                           "loanStartdate":{
+                              "description":"Дата начала действия оборудования",
+                              "type":"string",
+                              "example":null
+                           },
+                           "cpeOwner":{
+                              "description":"Код владельца оборудования",
+                              "type":"string",
+                              "example":"510"
+                           },
+                           "cpeOwnerName":{
+                              "description":"Наименование владельца оборудования",
+                              "type":"string",
+                              "example":"Пользование"
+                           },
+                           "orderCreator":{
+                              "description":"Заявка инициатор",
+                              "type":"string",
+                              "example":"33522718"
+                           },
+                           "parentServiceProviderCode":{
+                              "description":"Код сервис-провайдера.",
+                              "type":"string",
+                              "example":null
+                           },
+                           "serviceCode":{
+                              "description":"Код услуги",
+                              "type":"string",
+                              "example":null
+                           },
+                           "servicePrice":{
+                              "description":"Цена услуги",
+                              "type":"integer",
+                              "example":0
+                           }
+                        }
+                     }
+                  }
+               }
             }
-        },
-        "securitySchemes": {
-            "basicAuth": {
-                "type": "http",
-                "scheme": "basic"
-            }
-        }
-    },
-    "security": [
-        []
-    ]
+         }
+      },
+      "securitySchemes":{
+         "basicAuth":{
+            "type":"http",
+            "scheme":"basic"
+         }
+      }
+   },
+   "security":[
+      [
+         
+      ]
+   ]
 }
